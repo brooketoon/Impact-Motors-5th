@@ -2878,51 +2878,182 @@
     }
 
   </style>
+
+<style id="stories-in-science-consistency-retrofit">
+:root { --lesson-content-max: 800px; --shell-wide-max: 1040px; }
+html { scroll-padding-top: 92px; }
+body { overflow-x: hidden; }
+body.ui-locked { overflow: hidden; }
+#app { width: min(calc(100% - 32px), var(--lesson-content-max)); max-width: none; margin-inline: auto; padding: 22px 0 72px; }
+.section { min-height: 0; }
+.section[hidden] { display: none !important; }
+.section.active { display: block; }
+.section-header, .section-body, .s0-hero, .s0-accordion, .s0-footer, .nav-row { width: 100%; }
+.section-header { padding-inline: clamp(20px, 5vw, 40px); }
+.section-body { padding-inline: clamp(18px, 5vw, 40px); }
+.lesson-hero-image { display:block; width:100%; max-width:760px; height:auto; margin:26px auto 0; border-radius:var(--radius-lg); box-shadow:var(--shadow); object-fit:cover; }
+
+/* Active lesson header: exactly three controls */
+#active-lesson-header {
+  position: sticky; top: 0; z-index: 150; width:100%; min-height:66px;
+  padding:10px max(12px,env(safe-area-inset-left)) 10px max(12px,env(safe-area-inset-right));
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  background:rgba(46,74,114,.985); border-bottom:3px solid var(--orange); box-shadow:0 2px 16px rgba(0,0,0,.38);
+}
+#active-lesson-header[hidden] { display:none !important; }
+.shell-brand { display:flex; align-items:center; gap:10px; min-width:0; flex:1 1 auto; }
+.shell-brand-pill { background:var(--orange); color:#fff; font-family:var(--font-head); font-weight:800; font-size:13px; padding:7px 14px; border-radius:50px; white-space:nowrap; }
+.shell-brand-copy { min-width:0; display:flex; flex-direction:column; }
+.shell-brand-series { color:var(--gray-on-dark); font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:700; }
+.shell-brand-title { color:#fff; font-size:15px; font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.shell-actions { display:flex; gap:7px; flex:0 0 auto; }
+.shell-control { min-height:44px; padding:8px 12px; border:1px solid rgba(255,255,255,.28); border-radius:8px; background:rgba(255,255,255,.08); color:#fff; font:700 14px var(--font-ui); cursor:pointer; white-space:nowrap; }
+.shell-control:hover { background:rgba(255,255,255,.16); }
+.shell-control--danger { border-color:rgba(249,115,22,.75); color:#ffd8bd; }
+
+/* Investigation tracker */
+#investigation-tracker { width:min(calc(100% - 32px),var(--lesson-content-max)); margin:14px auto 10px; }
+#investigation-tracker[hidden] { display:none !important; }
+.tracker-title { color:var(--navy-dark); font:800 15px var(--font-ui); margin-bottom:8px; }
+.tracker-path { display:flex; align-items:stretch; gap:0; background:#fff; border:1px solid #cbd5e1; border-radius:var(--radius); padding:12px; box-shadow:0 2px 8px rgba(31,42,68,.12); }
+.tracker-step { flex:1; min-width:0; display:flex; align-items:flex-start; gap:8px; padding:5px; border-radius:8px; }
+.tracker-step-icon { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex:0 0 auto; background:#e2e8f0; color:#475569; font:800 13px var(--font-ui); }
+.tracker-step-label { color:#64748b; font:800 10px var(--font-ui); letter-spacing:.08em; text-transform:uppercase; }
+.tracker-step-value { color:#475569; font:700 12px var(--font-ui); line-height:1.35; }
+.tracker-step.completed .tracker-step-icon { background:var(--success); color:#fff; }
+.tracker-step.current { background:#fff7ed; box-shadow:inset 0 0 0 2px rgba(249,115,22,.35); }
+.tracker-step.current .tracker-step-icon { background:var(--orange); color:#fff; }
+.tracker-step.current .tracker-step-label { color:var(--orange-dim); }
+.tracker-connector { width:20px; flex:0 0 20px; display:flex; align-items:center; justify-content:center; color:#94a3b8; }
+.tracker-connector::after { content:'→'; font-weight:800; }
+
+/* Standard navigation */
+.nav-row { position:static !important; margin-top:24px !important; padding:0 !important; min-height:0 !important; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.nav-row .btn { min-height:44px; }
+.nav-row .btn-continue { margin-left:auto; }
+.btn[disabled] { cursor:not-allowed; }
+
+/* Drawers and modals */
+.overlay-layer { position:fixed; inset:0; z-index:400; display:none; }
+.overlay-layer.active { display:block; }
+.overlay-scrim { position:absolute; inset:0; background:rgba(15,23,42,.65); }
+.drawer-panel { position:absolute; top:0; bottom:0; width:min(460px,92vw); background:#fff; color:#1e293b; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 12px 44px rgba(0,0,0,.4); }
+.drawer-panel--left { left:0; border-radius:0 16px 16px 0; }
+.drawer-panel--right { right:0; border-radius:16px 0 0 16px; }
+.drawer-header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:18px; background:var(--navy); border-bottom:3px solid var(--orange); }
+.drawer-header h2 { margin:0; color:#fff; font:800 22px var(--font-head); }
+.drawer-close { min-width:66px; min-height:44px; border:1px solid rgba(255,255,255,.35); border-radius:8px; background:rgba(255,255,255,.1); color:#fff; font:700 14px var(--font-ui); cursor:pointer; }
+.drawer-body { flex:1; overflow-y:auto; padding:18px; overscroll-behavior:contain; }
+.drawer-footer { padding:14px 18px max(14px,env(safe-area-inset-bottom)); border-top:1px solid #e2e8f0; background:#f8fafc; }
+.drawer-export { width:100%; min-height:46px; border:0; border-radius:9px; background:var(--success); color:#fff; font:800 16px var(--font-ui); cursor:pointer; }
+.glossary-list { display:grid; gap:14px; margin:0; }
+.glossary-list dt { color:var(--navy-dark); font-weight:800; }
+.glossary-list dd { margin:3px 0 0; color:#475569; line-height:1.6; }
+
+.shell-modal-overlay { position:fixed; inset:0; z-index:420; display:none; align-items:center; justify-content:center; padding:18px; background:rgba(15,23,42,.65); }
+.shell-modal-overlay.active { display:flex; }
+.shell-modal { width:min(100%,500px); max-height:min(90vh,680px); overflow-y:auto; background:#fff; color:#1e293b; border-radius:16px; padding:28px; box-shadow:0 12px 44px rgba(0,0,0,.42); }
+.shell-modal h2 { margin:0 0 12px; color:var(--navy-dark); font:800 25px var(--font-head); }
+.shell-modal p { color:#475569; font-size:17px; }
+.shell-modal label { display:block; margin:16px 0 6px; color:var(--navy-dark); font-weight:800; }
+.shell-modal input { width:100%; min-height:46px; padding:10px 12px; border:2px solid #cbd5e1; border-radius:8px; color:#1e293b; background:#fff; font:16px var(--font-body); }
+.modal-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:10px; margin-top:22px; }
+.modal-button { min-height:44px; padding:10px 18px; border-radius:8px; border:0; font:800 15px var(--font-ui); cursor:pointer; }
+.modal-button--safe { background:#e2e8f0; color:#1e293b; }
+.modal-button--primary { background:var(--blue); color:#fff; }
+.modal-button--danger { background:#b42318; color:#fff; }
+.filename-preview { margin-top:8px; padding:9px 11px; border-radius:8px; background:#f1f5f9; color:#475569; font:13px monospace; overflow-wrap:anywhere; }
+
+/* Complete journal */
+.journal-empty { padding:14px; border-radius:10px; background:#f1f5f9; color:#64748b; font-style:italic; }
+.journal-summary { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-bottom:18px; }
+.journal-summary-item { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px; color:#334155; }
+.journal-summary-item strong { display:block; color:var(--navy-dark); font-size:11px; letter-spacing:.06em; text-transform:uppercase; }
+.journal-stage { margin:0 0 22px; }
+.journal-stage-title { margin:0 0 9px; color:var(--orange-dim); font:800 12px var(--font-ui); letter-spacing:.08em; text-transform:uppercase; }
+.journal-entry { margin-bottom:10px; padding:13px 14px; border:1px solid #e2e8f0; border-left:4px solid var(--blue); border-radius:0 10px 10px 0; background:#fff; }
+.journal-entry h3 { margin:0 0 6px; color:var(--navy-dark); font-size:16px; }
+.journal-entry p { margin:4px 0; color:#334155; white-space:pre-wrap; line-height:1.55; }
+.journal-context { color:#64748b !important; font-size:13px; }
+.journal-model { margin-bottom:10px; padding:14px; border:2px solid var(--orange); border-radius:10px; background:#fff7ed; }
+.journal-model h3 { margin:0 0 8px; color:var(--orange-dim); }
+.journal-model ul, .journal-model ol { margin:8px 0 0 20px; color:#334155; }
+.journal-evidence-list { margin:6px 0 0 20px; color:#334155; }
+
+/* Validation and accessibility */
+.validation-message { display:none; margin:12px 0 0; padding:11px 13px; border-left:4px solid #d97706; border-radius:8px; background:#fff7ed; color:#7c3f00; font-weight:800; }
+.validation-message.show { display:block; }
+.needs-attention { animation:attentionPulse .9s ease 2; box-shadow:0 0 0 4px rgba(249,115,22,.22) !important; }
+@keyframes attentionPulse { 50% { transform:translateY(-1px); } }
+.sr-only { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
+:focus-visible { outline:3px solid #fbbf24 !important; outline-offset:3px; }
+button,input,textarea,select { scroll-margin-top:120px; }
+button { min-height:44px; }
+.lesson-heading-focus:focus { outline:none !important; }
+.completion-actions { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:20px 0; }
+.completion-actions .btn { min-height:46px; }
+#section-0 .s0-footer { width:100%; }
+
+@media (max-width:680px) {
+  #active-lesson-header { flex-direction:column; align-items:stretch; gap:8px; }
+  .shell-brand { width:100%; }
+  .shell-actions { width:100%; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+  .shell-control { width:100%; min-width:0; padding:8px 4px; font-size:clamp(11px,3.4vw,14px); }
+  .tracker-path { flex-direction:column; gap:6px; }
+  .tracker-connector { width:100%; height:12px; flex-basis:12px; justify-content:flex-start; padding-left:14px; }
+  .tracker-connector::after { content:'↓'; }
+  .nav-row { flex-direction:column-reverse; }
+  .nav-row .btn { width:100%; text-align:center; }
+  .nav-row .btn-continue { margin-left:0; }
+  .drawer-panel { width:min(96vw,460px); }
+  .modal-actions { flex-direction:column-reverse; }
+  .modal-actions .modal-button { width:100%; }
+  .journal-summary { grid-template-columns:1fr; }
+}
+@media (max-width:340px) {
+  #app,#investigation-tracker { width:min(calc(100% - 20px),var(--lesson-content-max)); }
+  .shell-brand-pill { padding-inline:9px; font-size:11px; }
+  .shell-brand-title { font-size:13px; }
+  .shell-control { font-size:10.5px; padding-inline:2px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; }
+}
+</style>
+
 </head>
 <body>
 
-<!-- ============================================================
-     MASTHEAD / HEADER
-============================================================ -->
-<div id="sticky-header">
-<header id="masthead">
-  <div class="brand">
-    <span class="brand-pill">Stories in Science</span>
-    <div class="title-group">
-      <h1>Arizona Grade 5</h1>
-      <h2>Impact Motors: Crash Investigation</h2>
-    </div>
+<!-- Active Lesson Header -->
+<header id="active-lesson-header" aria-label="Lesson controls" hidden>
+  <div class="shell-brand" aria-label="Stories in Science, Impact Motors: Crash Investigation">
+    <span class="shell-brand-pill">Stories in Science</span>
+    <span class="shell-brand-copy">
+      <span class="shell-brand-series">Arizona Grade 5</span>
+      <span class="shell-brand-title">Impact Motors: Crash Investigation</span>
+    </span>
   </div>
-  <!-- Utility buttons — hidden on Section 0 -->
-  <div id="util-buttons">
-    <button class="btn-util" onclick="exportModalOpen()" title="Download your field journal">⬇ Export Journal</button>
-    <button class="btn-util" onclick="glossaryModalOpen()" title="View investigation vocabulary">📖 Glossary</button>
-    <button class="btn-util btn-util-danger" onclick="confirmModalOpen()" title="Clear progress and restart">↺ Restart</button>
+  <div class="shell-actions">
+    <button type="button" class="shell-control" id="glossary-button" onclick="showGlossaryDrawer()">Glossary</button>
+    <button type="button" class="shell-control" id="journal-button" onclick="showJournalDrawer()">View Journal</button>
+    <button type="button" class="shell-control shell-control--danger" id="restart-button" onclick="showRestartModal()">Restart</button>
   </div>
 </header>
 
-<!-- Mission Path tracker strip — hidden on Section 0 -->
-<div id="mission-path">
-  <span class="mp-label">🗺 Your Investigation Path</span>
-  <div class="mp-steps">
-    <div class="mp-step" id="mp-dp1">
-      <div class="mp-num">1</div>
-      <div class="mp-text">
-        <div class="mp-step-title">STARTING POINT</div>
-        <div class="mp-step-val" id="mp-dp1-val">Awaiting your choice…</div>
-      </div>
-    </div>
-    <div class="mp-connector">—</div>
-    <div class="mp-step" id="mp-dp2">
-      <div class="mp-num">2</div>
-      <div class="mp-text">
-        <div class="mp-step-title">EVIDENCE PATH</div>
-        <div class="mp-step-val" id="mp-dp2-val">Awaiting your choice…</div>
-      </div>
-    </div>
+<nav id="investigation-tracker" aria-label="Investigation progress" hidden>
+  <div class="tracker-title">Investigation Progress</div>
+  <div class="tracker-path" role="list">
+    <div class="tracker-step" id="tracker-evidence" role="listitem"><div class="tracker-step-icon">1</div><div><div class="tracker-step-label">Examine Evidence</div><div class="tracker-step-value">Choose a starting path</div></div></div>
+    <div class="tracker-connector" aria-hidden="true"></div>
+    <div class="tracker-step" id="tracker-patterns" role="listitem"><div class="tracker-step-icon">2</div><div><div class="tracker-step-label">Compare Patterns</div><div class="tracker-step-value">Explain crash differences</div></div></div>
+    <div class="tracker-connector" aria-hidden="true"></div>
+    <div class="tracker-step" id="tracker-energy" role="listitem"><div class="tracker-step-icon">3</div><div><div class="tracker-step-label">Trace Energy</div><div class="tracker-step-value">Analyze where energy moves</div></div></div>
+    <div class="tracker-connector" aria-hidden="true"></div>
+    <div class="tracker-step" id="tracker-model" role="listitem"><div class="tracker-step-icon">4</div><div><div class="tracker-step-label">Build a Model</div><div class="tracker-step-value">Connect before, during, and after</div></div></div>
+    <div class="tracker-connector" aria-hidden="true"></div>
+    <div class="tracker-step" id="tracker-communicate" role="listitem"><div class="tracker-step-icon">5</div><div><div class="tracker-step-label">Communicate</div><div class="tracker-step-value">Share findings and reflect</div></div></div>
   </div>
-</div>
-</div><!-- /#sticky-header -->
+</nav>
 
 
 <!-- ============================================================
@@ -2947,7 +3078,9 @@
 
 <p class="s0-mission">
   <strong>You will examine crash test evidence, identify patterns, and explain why the crash results are different</strong>.</p>
-      <button class="btn btn-s0-start" onclick="navigateTo('section-1')">
+      <!-- Required launch image: images/hero.png -->
+      <img src="images/hero.png" alt="Impact Motors crash investigation launch scene" class="lesson-hero-image">
+      <button class="btn btn-s0-start" onclick="startLesson('section-1')">
         Enter Investigation
       </button>
     </div>
@@ -3047,7 +3180,7 @@
       </div>
 
       <!-- Continue button triggers navigation to Section 2 -->
-      <button class="btn btn-start" onclick="navigateTo('section-2')">
+      <button class="btn btn-start" onclick="continueTo('section-2')">
         Begin Investigation
       </button>
 
@@ -3110,7 +3243,7 @@
       <!-- Navigation -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-3')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-3')">Continue →</button>
       </div>
 
     </div>
@@ -3192,8 +3325,7 @@ Examine how the car changed during the crash
                onerror="this.style.display='none'" />
           <img class="cs-car-on-track"
                id="carImage"
-               src="images/Energy_car.png"
-               onerror="this.src='data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 32'><rect x='2' y='10' width='76' height='16' rx='4' fill='%23F97316'/><rect x='10' y='6' width='40' height='14' rx='3' fill='%23EA580C'/><circle cx='14' cy='28' r='5' fill='%231F2A44'/><circle cx='14' cy='28' r='3' fill='%236B7280'/><circle cx='60' cy='28' r='5' fill='%231F2A44'/><circle cx='60' cy='28' r='3' fill='%236B7280'/></svg>'" />
+               src="images/Energy_car.png" onerror="this.style.display='none'" />
         </section>
 
         <!-- ── TEST BUTTONS ── -->
@@ -3252,7 +3384,7 @@ Examine how the car changed during the crash
       <!-- ── NAVIGATION ── -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-5a')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-5a')">Continue →</button>
       </div>
 
     </div>
@@ -3292,8 +3424,8 @@ Examine how the car changed during the crash
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9l4-4 4 4 4-6 6 8"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
                 <span>images/Energy_no impact.png</span>
               </div>
-              <img class="pb-card-img" id="img-1-before" src="images/Energy_no impact.png" onload="pbOnImgLoad('1','before')" onerror="pbOnImgError('1','before')" />
-              <img class="pb-card-img hidden" id="img-1-after" src="images/Energy_TestRun1.png" onload="pbOnImgLoad('1','after')" onerror="pbOnImgError('1','after')" />
+              <img class="pb-card-img" id="img-1-before" src="images/Energy_no impact.png" onload="var p=document.getElementById('placeholder-1-before');if(p)p.style.display='none'" onerror="this.style.display='none';var p=document.getElementById('placeholder-1-before');if(p)p.style.display='flex'" />
+              <img class="pb-card-img hidden" id="img-1-after" src="images/Energy_TestRun1.png" onload="var p=document.getElementById('placeholder-1-after');if(p)p.style.display='none'" onerror="this.style.display='none';var p=document.getElementById('placeholder-1-after');if(p)p.style.display='flex'" />
               <div class="pb-after-badge">After Impact</div>
               <div class="pb-hotspot-layer" id="hotspots-1">
 <button class="pb-hotspot" style="left:76%; top:66%;" data-card="1" data-title="Bumper" data-text="The bumper is at the front of the car. In this test run, it shows only a small change where it meets the barrier." onclick="toggleHotspot(this)" onmouseenter="hoverHotspot(this)" onmouseleave="leaveHotspot(this)" aria-label="Bumper — Test 1" aria-expanded="false"><span class="pb-hotspot-label">Bumper</span></button>
@@ -3322,8 +3454,8 @@ Examine how the car changed during the crash
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9l4-4 4 4 4-6 6 8"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
                 <span>images/Energy_no impact.png</span>
               </div>
-              <img class="pb-card-img" id="img-2-before" src="images/Energy_no impact.png" onload="pbOnImgLoad('2','before')" onerror="pbOnImgError('2','before')" />
-              <img class="pb-card-img hidden" id="img-2-after" src="images/Energy_TestRun2.png" onload="pbOnImgLoad('2','after')" onerror="pbOnImgError('2','after')" />
+              <img class="pb-card-img" id="img-2-before" src="images/Energy_no impact.png" onload="var p=document.getElementById('placeholder-2-before');if(p)p.style.display='none'" onerror="this.style.display='none';var p=document.getElementById('placeholder-2-before');if(p)p.style.display='flex'" />
+              <img class="pb-card-img hidden" id="img-2-after" src="images/Energy_TestRun2.png" onload="var p=document.getElementById('placeholder-2-after');if(p)p.style.display='none'" onerror="this.style.display='none';var p=document.getElementById('placeholder-2-after');if(p)p.style.display='flex'" />
               <div class="pb-after-badge">After Impact</div>
               <div class="pb-hotspot-layer" id="hotspots-2">
 <button class="pb-hotspot" style="left:77%; top:67%;" data-card="2" data-title="Bumper" data-text="The bumper is heavily compressed near the barrier. Its original shape is difficult to recognize after the impact." onclick="toggleHotspot(this)" onmouseenter="hoverHotspot(this)" onmouseleave="leaveHotspot(this)" aria-label="Bumper — Test 2" aria-expanded="false"><span class="pb-hotspot-label">Bumper</span></button>
@@ -3352,8 +3484,8 @@ Examine how the car changed during the crash
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9l4-4 4 4 4-6 6 8"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
                 <span>images/Energy_no impact.png</span>
               </div>
-              <img class="pb-card-img" id="img-3-before" src="images/Energy_no impact.png" onload="pbOnImgLoad('3','before')" onerror="pbOnImgError('3','before')" />
-              <img class="pb-card-img hidden" id="img-3-after" src="images/Energy_TestRun3.png" onload="pbOnImgLoad('3','after')" onerror="pbOnImgError('3','after')" />
+              <img class="pb-card-img" id="img-3-before" src="images/Energy_no impact.png" onload="var p=document.getElementById('placeholder-3-before');if(p)p.style.display='none'" onerror="this.style.display='none';var p=document.getElementById('placeholder-3-before');if(p)p.style.display='flex'" />
+              <img class="pb-card-img hidden" id="img-3-after" src="images/Energy_TestRun3.png" onload="var p=document.getElementById('placeholder-3-after');if(p)p.style.display='none'" onerror="this.style.display='none';var p=document.getElementById('placeholder-3-after');if(p)p.style.display='flex'" />
               <div class="pb-after-badge">After Impact</div>
               <div class="pb-hotspot-layer" id="hotspots-3">
 <button class="pb-hotspot" style="left:77%; top:67%;" data-card="3" data-title="Bumper" data-text="The bumper is pushed inward. The change is greater than in Test Run 1, but less than in Test Run 2." onclick="toggleHotspot(this)" onmouseenter="hoverHotspot(this)" onmouseleave="leaveHotspot(this)" aria-label="Bumper — Test 3" aria-expanded="false"><span class="pb-hotspot-label">Bumper</span></button>
@@ -3392,7 +3524,7 @@ Examine how the car changed during the crash
       <!-- ── NAVIGATION ── -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-5a')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-5a')">Continue →</button>
       </div>
 
     </div>
@@ -3499,7 +3631,7 @@ Examine how the car changed during the crash
       <!-- Navigation -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-5b')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-5b')">Continue →</button>
       </div>
 
     </div>
@@ -3764,7 +3896,7 @@ update();
       <!-- Navigation -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-5c')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-5c')">Continue →</button>
       </div>
 
     </div>
@@ -3805,7 +3937,7 @@ update();
       <!-- Navigation -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-6')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-6')">Continue →</button>
       </div>
 
     </div>
@@ -4001,7 +4133,7 @@ Where will you start your energy analysis?      </p>
       <!-- Navigation — converges to Section 8 -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-8')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-8')">Continue →</button>
       </div>
 
     </div>
@@ -4124,7 +4256,7 @@ Where will you start your energy analysis?      </p>
       <!-- Navigation — converges to Section 8 -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-8')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-8')">Continue →</button>
       </div>
 
     </div>
@@ -4187,7 +4319,7 @@ Where will you start your energy analysis?      </p>
       <!-- Navigation -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-8b')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-8b')">Continue →</button>
       </div>
 
     </div>
@@ -4317,7 +4449,7 @@ Where will you start your energy analysis?      </p>
       <!-- Navigation -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-9')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-9')">Continue →</button>
       </div>
 
     </div>
@@ -4449,7 +4581,7 @@ Where will you start your energy analysis?      </p>
       <!-- Navigation -->
       <div class="nav-row">
         <button class="btn btn-back" onclick="goBack()">← Back</button>
-        <button class="btn btn-continue" onclick="navigateTo('section-10')">Continue →</button>
+        <button class="btn btn-continue" onclick="continueTo('section-10')">Continue →</button>
       </div>
 
     </div>
@@ -4514,6 +4646,12 @@ Where will you start your energy analysis?      </p>
         <p>Investigation complete.</p>
       </div>
 
+      <div class="completion-actions" aria-label="Lesson completion actions">
+        <button type="button" class="btn btn-continue" onclick="showJournalDrawer()">View Journal</button>
+        <button type="button" class="btn btn-export" onclick="showExportModal()">Export Journal</button>
+        <button type="button" class="btn btn-back" id="completion-quiz-button" onclick="focusOptionalQuiz()">Take Optional Quiz</button>
+      </div>
+
       <!-- Optional standards quiz -->
       <div class="standards-quiz-intro">
         <div class="standards-quiz-eyebrow">Optional Standards Quiz</div>
@@ -4546,110 +4684,69 @@ Where will you start your energy analysis?      </p>
 
 </main><!-- /#app -->
 
-<!-- ============================================================
-     EXPORT JOURNAL MODAL
-============================================================ -->
-<div class="im-modal-overlay" id="export-modal" role="dialog" aria-modal="true" aria-labelledby="export-modal-title">
-  <div class="im-modal-box">
-    <div class="im-modal-title" id="export-modal-title">Export Your Field Journal</div>
-
-    <div class="im-modal-body">
-      <div style="background:#f4f6f8;padding:12px 14px;border-radius:12px;margin-bottom:14px;line-height:1.45;color:#243044 !important;">
-        <p style="margin:0 0 10px 0;color:#243044 !important;">
-          <strong style="color:#1f2937 !important;">Use your classroom login/study ID as the file name.</strong><br>
-          Enter it below to name your Field Journal file.
-        </p>
-
-        <p style="margin:0;color:#243044 !important;">
-          <strong style="color:#1f2937 !important;">Forgot your login/study ID?</strong><br>
-          Please ask your teacher for help.
-        </p>
-      </div>
-
-      <span style="color:#ffffff;">
-        <strong>ImpactMotorsJournal</strong> will be added automatically to the end of the filename.
-      </span>
+<!-- Glossary Drawer -->
+<div class="overlay-layer" id="glossary-drawer" aria-hidden="true">
+  <div class="overlay-scrim" data-close-overlay="glossary-drawer"></div>
+  <aside class="drawer-panel drawer-panel--left" role="dialog" aria-modal="true" aria-labelledby="glossary-title" tabindex="-1">
+    <div class="drawer-header">
+      <h2 id="glossary-title">Investigation Glossary</h2>
+      <button type="button" class="drawer-close" onclick="closeGlossaryDrawer()" aria-label="Close glossary">Close</button>
     </div>
-
-    <label class="im-modal-label" for="export-name-input">Study ID or name:</label>
-    <input class="im-modal-input" type="text" id="export-name-input" placeholder="e.g. SIS-001 or Jordan"
-           oninput="exportModalPreview()" aria-label="Study ID or name for the filename" />
-
-    <div class="im-modal-preview">
-      Filename: <span id="export-filename-preview">ImpactMotorsJournal.html</span>
+    <div class="drawer-body">
+      <dl class="glossary-list">
+        <div><dt>Evidence</dt><dd>Information collected during an investigation that helps explain what happened.</dd></div>
+        <div><dt>Pattern</dt><dd>Something that happens more than once or shows a connection across evidence.</dd></div>
+        <div><dt>Motion</dt><dd>A change in an object&rsquo;s position over time.</dd></div>
+        <div><dt>Impact</dt><dd>The moment when one object hits another object.</dd></div>
+        <div><dt>System</dt><dd>A group of connected parts that work together or affect one another.</dd></div>
+        <div><dt>Vehicle Change</dt><dd>A change to the car&rsquo;s shape after impact, such as bending, crumpling, or compression.</dd></div>
+        <div><dt>Surroundings</dt><dd>The area around the crash, including the air, barrier, floor, and nearby objects.</dd></div>
+      </dl>
     </div>
+  </aside>
+</div>
 
-    <div class="im-modal-btns">
-      <button class="btn-cancel" onclick="exportModalClose()">Cancel</button>
-      <button class="btn-export-go" onclick="exportModalConfirm()">Export</button>
+<!-- Field Journal Drawer -->
+<div class="overlay-layer" id="journal-drawer" aria-hidden="true">
+  <div class="overlay-scrim" data-close-overlay="journal-drawer"></div>
+  <aside class="drawer-panel drawer-panel--right" role="dialog" aria-modal="true" aria-labelledby="journal-drawer-title" tabindex="-1">
+    <div class="drawer-header">
+      <h2 id="journal-drawer-title">Field Journal</h2>
+      <button type="button" class="drawer-close" onclick="closeJournalDrawer()" aria-label="Close Field Journal">Close</button>
+    </div>
+    <div class="drawer-body" id="journal-drawer-content" aria-live="polite"></div>
+    <div class="drawer-footer"><button type="button" class="drawer-export" onclick="showExportModal()">Export Journal</button></div>
+  </aside>
+</div>
+
+<!-- Restart confirmation -->
+<div class="shell-modal-overlay" id="restart-modal" role="dialog" aria-modal="true" aria-labelledby="restart-title">
+  <div class="shell-modal" tabindex="-1">
+    <h2 id="restart-title">Restart this lesson?</h2>
+    <p>This will erase your current decisions, models, written responses, journal entries, and optional quiz progress from this device.</p>
+    <div class="modal-actions">
+      <button type="button" class="modal-button modal-button--safe" id="keep-progress-button" onclick="closeRestartModal()">Keep My Progress</button>
+      <button type="button" class="modal-button modal-button--danger" onclick="confirmRestart()">Restart Lesson</button>
     </div>
   </div>
 </div>
 
-<!-- ============================================================
-     RESTART CONFIRM MODAL
-============================================================ -->
-<div class="im-modal-overlay" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
-  <div class="im-confirm-box">
-    <div class="im-modal-title" id="confirm-modal-title">⚠ Restart Lesson?</div>
-    <div class="im-modal-body">
-      This will permanently clear all your journal entries, decisions, brief responses, quiz responses, and score.<br><br>
-      <strong>This cannot be undone.</strong>
-    </div>
-    <div class="im-modal-btns">
-      <button class="btn-cancel" onclick="confirmModalClose()">Cancel</button>
-      <button class="btn-confirm-yes" onclick="confirmModalYes()">Yes, Restart</button>
+<!-- Export filename modal -->
+<div class="shell-modal-overlay" id="export-modal" role="dialog" aria-modal="true" aria-labelledby="export-title">
+  <div class="shell-modal" tabindex="-1">
+    <h2 id="export-title">What should we name your file?</h2>
+    <p>Enter a name for your journal. The lesson title will be added automatically.</p>
+    <label for="export-name-input">File name</label>
+    <input type="text" id="export-name-input" placeholder="Brooke Science Journal" maxlength="80" autocomplete="off" oninput="updateExportPreview()">
+    <div class="filename-preview" id="export-filename-preview">Student Journal – Impact Motors Crash Investigation.html</div>
+    <div class="modal-actions">
+      <button type="button" class="modal-button modal-button--safe" onclick="closeExportModal()">Cancel</button>
+      <button type="button" class="modal-button modal-button--primary" id="export-confirm-button" onclick="confirmExportJournal()">Export Journal</button>
     </div>
   </div>
 </div>
 
-
-<!-- ============================================================
-     GLOSSARY MODAL
-============================================================ -->
-<div class="im-modal-overlay" id="glossary-modal" role="dialog" aria-modal="true" aria-labelledby="glossary-modal-title" onclick="glossaryModalBackdrop(event)">
-  <div class="im-glossary-box">
-    <div class="im-glossary-header">
-      <div class="im-modal-title" id="glossary-modal-title">
-        <span>📖</span><span>Investigation Glossary</span>
-      </div>
-      <button class="im-glossary-close" onclick="glossaryModalClose()" aria-label="Close glossary">&times;</button>
-    </div>
-    <div class="im-glossary-body">
-      <div class="im-gloss-term">
-        <h3>Evidence</h3>
-        <p>Information collected during an investigation that helps explain what happened.</p>
-      </div>
-      <div class="im-gloss-term">
-        <h3>Pattern</h3>
-        <p>Something that happens more than once or shows a connection across evidence.</p>
-      </div>
-      <div class="im-gloss-term">
-        <h3>Motion</h3>
-        <p>A change in an object&rsquo;s position over time.</p>
-      </div>
-      <div class="im-gloss-term">
-        <h3>Impact</h3>
-        <p>The moment when one object hits another object.</p>
-      </div>
-      <div class="im-gloss-term">
-        <h3>System</h3>
-        <p>A group of connected parts that work together or affect one another.</p>
-      </div>
-      <div class="im-gloss-term">
-        <h3>Vehicle Change</h3>
-        <p>A change to the car&rsquo;s shape after impact, such as bending, crumpling, or compression.</p>
-      </div>
-      <div class="im-gloss-term">
-        <h3>Surroundings</h3>
-        <p>The area around the crash, including the air, barrier, floor, and nearby objects.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
+<div id="global-status" class="sr-only" role="status" aria-live="polite"></div>
 
 <!-- ============================================================
      JAVASCRIPT
@@ -4693,32 +4790,153 @@ Where will you start your energy analysis?      </p>
   };
   const TOTAL_SECTIONS = 12;
 
-  // ── State ────────────────────────────────────────────────────
-  let currentSection = 'section-0';
-  let navigationHistory = [];  // stack of previously-visited section IDs
-  
-  // decisions: keyed by 'dp1' and 'dp2', value is 'A' or 'B'
-  let decisions = {};
+  // ── Unified lesson state ──────────────────────────────────────
+  const LESSON_CONFIG = Object.freeze({
+    lessonId: 'impactMotorsCrashInvestigation',
+    lessonTitle: 'Impact Motors: Crash Investigation',
+    version: '3.0.0',
+    stateVersion: 3,
+    storageKey: 'storiesInScience:impactMotorsCrashInvestigation:v3',
+    legacyStorageKey: 'sins_impact_motors'
+  });
 
-  // journalData: keyed by short section key (e.g. 's2', 's4a')
-  let journalData = {};
+  function createDefaultState() {
+    return {
+      lessonId: LESSON_CONFIG.lessonId,
+      lessonTitle: LESSON_CONFIG.lessonTitle,
+      version: LESSON_CONFIG.version,
+      started: false,
+      currentScreen: 'section-0',
+      currentStage: 'launch',
+      encounteredScreens: [],
+      encounteredInteractions: [],
+      decisions: {},
+      evidenceSelections: {
+        motionTestLog: { 1: null, 2: null, 3: null },
+        motionTestOrder: [],
+        motionObservations: { 1: '', 2: '', 3: '' },
+        damageCardViews: { 1: 'before', 2: 'before', 3: 'before' },
+        damageHotspots: [],
+        speedBriefing: { value: 30, explored: false },
+        energyAnalysis: {
+          vehicle: { selectedRun: null, analysisRun: false },
+          surroundings: { selectedRun: null, analysisRun: false }
+        }
+      },
+      textResponses: {},
+      modelResponses: {
+        crashEnergy: { before: null, during: null, after: null, created: false,
+          relationships: ['Before the crash → During the crash', 'During the crash → After the crash'] }
+      },
+      rankings: {},
+      classifications: {},
+      recommendations: { scientificBrief: { generated: false } },
+      reflections: {},
+      quiz: { started: false, completed: false, choice: null, answers: {}, attempts: {}, revisions: {}, submitted: false, score: null },
+      timing: { timePerSection: {}, currentSectionStart: null },
+      ui: { history: [] },
+      completed: false
+    };
+  }
 
-  // Optional standards quiz state
-  let quizState = { choice: null, answers: {}, submitted: false, score: null };
+  function normalizeLessonState(raw) {
+    const next = createDefaultState();
+    if (!raw || typeof raw !== 'object') return next;
+    if (raw.lessonId === LESSON_CONFIG.lessonId && raw.textResponses) {
+      next.started = Boolean(raw.started);
+      next.currentScreen = raw.currentScreen || 'section-0';
+      next.currentStage = raw.currentStage || getStageForScreen(next.currentScreen);
+      next.encounteredScreens = Array.isArray(raw.encounteredScreens) ? raw.encounteredScreens : [];
+      next.encounteredInteractions = Array.isArray(raw.encounteredInteractions) ? raw.encounteredInteractions : [];
+      next.decisions = raw.decisions || {};
+      next.evidenceSelections = Object.assign(next.evidenceSelections, raw.evidenceSelections || {});
+      next.evidenceSelections.motionTestLog = Object.assign({1:null,2:null,3:null}, (raw.evidenceSelections || {}).motionTestLog || {});
+      next.evidenceSelections.motionObservations = Object.assign({1:'',2:'',3:''}, (raw.evidenceSelections || {}).motionObservations || {});
+      next.evidenceSelections.damageCardViews = Object.assign({1:'before',2:'before',3:'before'}, (raw.evidenceSelections || {}).damageCardViews || {});
+      next.evidenceSelections.damageHotspots = Array.isArray((raw.evidenceSelections || {}).damageHotspots) ? raw.evidenceSelections.damageHotspots : [];
+      next.evidenceSelections.energyAnalysis = Object.assign(next.evidenceSelections.energyAnalysis, (raw.evidenceSelections || {}).energyAnalysis || {});
+      next.evidenceSelections.energyAnalysis.vehicle = Object.assign({selectedRun:null,analysisRun:false}, next.evidenceSelections.energyAnalysis.vehicle || {});
+      next.evidenceSelections.energyAnalysis.surroundings = Object.assign({selectedRun:null,analysisRun:false}, next.evidenceSelections.energyAnalysis.surroundings || {});
+      next.textResponses = raw.textResponses || {};
+      next.modelResponses = Object.assign(next.modelResponses, raw.modelResponses || {});
+      next.modelResponses.crashEnergy = Object.assign(next.modelResponses.crashEnergy, (raw.modelResponses || {}).crashEnergy || {});
+      next.rankings = raw.rankings || {};
+      next.classifications = raw.classifications || {};
+      next.recommendations = Object.assign(next.recommendations, raw.recommendations || {});
+      next.recommendations.scientificBrief = Object.assign({generated:false}, (next.recommendations || {}).scientificBrief || {});
+      next.reflections = raw.reflections || {};
+      next.quiz = Object.assign(next.quiz, raw.quiz || {});
+      next.quiz.answers = next.quiz.answers || {};
+      next.quiz.attempts = next.quiz.attempts || {};
+      next.quiz.revisions = next.quiz.revisions || {};
+      next.timing = Object.assign(next.timing, raw.timing || {});
+      next.ui = Object.assign(next.ui, raw.ui || {});
+      next.ui.history = Array.isArray(next.ui.history) ? next.ui.history : [];
+      next.completed = Boolean(raw.completed);
+      return next;
+    }
+    // Migrate the lesson's earlier state shape.
+    next.started = Boolean(raw.currentSection && raw.currentSection !== 'section-0');
+    next.currentScreen = raw.currentSection || 'section-0';
+    next.currentStage = getStageForScreen(next.currentScreen);
+    next.decisions = raw.decisions || {};
+    next.textResponses = raw.journalData || {};
+    next.ui.history = Array.isArray(raw.navigationHistory) ? raw.navigationHistory : [];
+    next.timing.timePerSection = raw.sectionTimings || {};
+    next.quiz = Object.assign(next.quiz, raw.quizState || {});
+    next.quiz.started = next.quiz.choice === 'yes' || Object.keys(next.quiz.answers || {}).length > 0;
+    next.quiz.completed = Boolean(next.quiz.submitted);
+    next.evidenceSelections.motionTestLog = Object.assign(next.evidenceSelections.motionTestLog, raw.csTestLog || {});
+    next.evidenceSelections.motionObservations = Object.assign(next.evidenceSelections.motionObservations, raw.csObservations || {});
+    next.evidenceSelections.energyAnalysis.vehicle = { selectedRun: raw.dp2aSelectedRun || null, analysisRun: Boolean(raw.dp2aAnalysisRun) };
+    next.evidenceSelections.energyAnalysis.surroundings = { selectedRun: raw.dp2bSelectedRun || null, analysisRun: Boolean(raw.dp2bAnalysisRun) };
+    next.modelResponses.crashEnergy = Object.assign(next.modelResponses.crashEnergy, {
+      before: raw.briefModelBefore || null, during: raw.briefModelDuring || null,
+      after: raw.briefModelAfter || null, created: Boolean(raw.briefModelCreated)
+    });
+    next.recommendations.scientificBrief.generated = Boolean(next.textResponses.brief_generated);
+    const idx = Object.keys(SECTION_META).indexOf(next.currentScreen);
+    next.encounteredScreens = next.started ? Object.keys(SECTION_META).slice(1, Math.max(1, idx + 1)) : [];
+    return next;
+  }
 
-  // Section 8B — Crash Energy Model state (declared here so saveToStorage
-  // can reference them on first page load before user interaction).
-  let briefModelBefore  = null;
-  let briefModelDuring  = null;
-  let briefModelAfter   = null;
-  let briefModelCreated = false;
+  let lessonState = createDefaultState();
+  // Compatibility aliases point into the central state where possible.
+  let currentSection = lessonState.currentScreen;
+  let navigationHistory = lessonState.ui.history;
+  let decisions = lessonState.decisions;
+  let journalData = lessonState.textResponses;
+  let quizState = lessonState.quiz;
+  let briefModelBefore  = lessonState.modelResponses.crashEnergy.before;
+  let briefModelDuring  = lessonState.modelResponses.crashEnergy.during;
+  let briefModelAfter   = lessonState.modelResponses.crashEnergy.after;
+  let briefModelCreated = lessonState.modelResponses.crashEnergy.created;
+  let dp2aSelectedRun = lessonState.evidenceSelections.energyAnalysis.vehicle.selectedRun;
+  let dp2aAnalysisRun = lessonState.evidenceSelections.energyAnalysis.vehicle.analysisRun;
+  let dp2bSelectedRun = lessonState.evidenceSelections.energyAnalysis.surroundings.selectedRun;
+  let dp2bAnalysisRun = lessonState.evidenceSelections.energyAnalysis.surroundings.analysisRun;
+  let savedCurrentSection = null;
 
-  // DP2 energy analysis state (declared early for same reason).
-  let dp2aSelectedRun = null;
-  let dp2aAnalysisRun = false;
-  let dp2bSelectedRun = null;
-  let dp2bAnalysisRun = false;
+  function getStageForScreen(screenId) {
+    if (['section-1','section-2','section-3','section-4a','section-4b'].includes(screenId)) return 'evidence';
+    if (['section-5a','section-5b','section-5c'].includes(screenId)) return 'patterns';
+    if (['section-6','section-7a','section-7b','section-8'].includes(screenId)) return 'energy';
+    if (screenId === 'section-8b') return 'model';
+    if (['section-9','section-10'].includes(screenId)) return 'communicate';
+    return 'launch';
+  }
 
+  function recordScreenEncounter(screenId) {
+    if (!screenId || screenId === 'section-0') return;
+    if (!lessonState.encounteredScreens.includes(screenId)) lessonState.encounteredScreens.push(screenId);
+  }
+
+  function recordInteractionEncounter(type, key, context) {
+    const token = type + ':' + key;
+    if (!lessonState.encounteredInteractions.some(item => item.token === token)) {
+      lessonState.encounteredInteractions.push({ token, type, key, context: context || '', encounteredAt: Date.now() });
+    }
+  }
 
   // ── Initialise on page load ──────────────────────────────────
   window.addEventListener('DOMContentLoaded', () => {
@@ -4855,333 +5073,107 @@ Where will you start your energy analysis?      </p>
   }
 
 
-  // ── localStorage persistence ──────────────────────────────────
+  // ── Centralized persistence ──────────────────────────────────
+  const STORAGE_KEY = LESSON_CONFIG.storageKey;
 
-  const STORAGE_KEY = 'sins_impact_motors';
-
-  function saveToStorage() {
-    try {
-      const payload = {
-        decisions,
-        journalData,
-        currentSection,
-        navigationHistory,
-        sectionTimings,
-        quizState,
-        csTestLog,
-        csObservations,
-        dp2aSelectedRun,
-        dp2aAnalysisRun,
-        dp2bSelectedRun,
-        dp2bAnalysisRun,
-        briefModelBefore,
-        briefModelDuring,
-        briefModelAfter,
-        briefModelCreated,
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    } catch(e) {
-      console.warn('localStorage save failed:', e);
-    }
+  function syncLegacyAliasesFromState() {
+    currentSection = lessonState.currentScreen || 'section-0';
+    savedCurrentSection = currentSection;
+    navigationHistory = lessonState.ui.history;
+    decisions = lessonState.decisions;
+    journalData = lessonState.textResponses;
+    quizState = lessonState.quiz;
+    briefModelBefore = lessonState.modelResponses.crashEnergy.before;
+    briefModelDuring = lessonState.modelResponses.crashEnergy.during;
+    briefModelAfter = lessonState.modelResponses.crashEnergy.after;
+    briefModelCreated = lessonState.modelResponses.crashEnergy.created;
+    dp2aSelectedRun = lessonState.evidenceSelections.energyAnalysis.vehicle.selectedRun;
+    dp2aAnalysisRun = lessonState.evidenceSelections.energyAnalysis.vehicle.analysisRun;
+    dp2bSelectedRun = lessonState.evidenceSelections.energyAnalysis.surroundings.selectedRun;
+    dp2bAnalysisRun = lessonState.evidenceSelections.energyAnalysis.surroundings.analysisRun;
+    if (typeof csTestLog !== 'undefined') csTestLog = lessonState.evidenceSelections.motionTestLog;
+    if (typeof csObservations !== 'undefined') csObservations = lessonState.evidenceSelections.motionObservations;
+    if (typeof sectionTimings !== 'undefined') sectionTimings = lessonState.timing.timePerSection;
   }
 
-  // Track the section to restore on load
-  let savedCurrentSection = null;
+  function syncStateFromLegacyAliases() {
+    lessonState.currentScreen = currentSection || 'section-0';
+    lessonState.currentStage = getStageForScreen(lessonState.currentScreen);
+    lessonState.started = lessonState.started || lessonState.currentScreen !== 'section-0';
+    lessonState.ui.history = navigationHistory;
+    lessonState.decisions = decisions;
+    lessonState.textResponses = journalData;
+    lessonState.quiz = quizState;
+    lessonState.quiz.started = Boolean(quizState.started || quizState.choice === 'yes' || Object.keys(quizState.answers || {}).length);
+    lessonState.quiz.completed = Boolean(quizState.submitted);
+    lessonState.modelResponses.crashEnergy.before = briefModelBefore;
+    lessonState.modelResponses.crashEnergy.during = briefModelDuring;
+    lessonState.modelResponses.crashEnergy.after = briefModelAfter;
+    lessonState.modelResponses.crashEnergy.created = Boolean(briefModelCreated);
+    lessonState.evidenceSelections.energyAnalysis.vehicle = { selectedRun: dp2aSelectedRun, analysisRun: Boolean(dp2aAnalysisRun) };
+    lessonState.evidenceSelections.energyAnalysis.surroundings = { selectedRun: dp2bSelectedRun, analysisRun: Boolean(dp2bAnalysisRun) };
+    if (typeof csTestLog !== 'undefined') lessonState.evidenceSelections.motionTestLog = csTestLog;
+    if (typeof csObservations !== 'undefined') lessonState.evidenceSelections.motionObservations = csObservations;
+    if (typeof sectionTimings !== 'undefined') lessonState.timing.timePerSection = sectionTimings;
+    lessonState.recommendations.scientificBrief.generated = Boolean(journalData.brief_generated);
+    lessonState.completed = lessonState.completed || lessonState.currentScreen === 'section-10';
+  }
+
+  function saveToStorage() {
+    syncStateFromLegacyAliases();
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(lessonState)); }
+    catch (error) { announceStatus('Progress could not be saved in this browser.'); }
+  }
+  function saveState() { saveToStorage(); }
 
   function loadFromStorage() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const payload = JSON.parse(raw);
-      if (payload.decisions)          decisions          = payload.decisions;
-      if (payload.journalData)        journalData        = payload.journalData;
-      if (payload.currentSection)     savedCurrentSection = payload.currentSection;
-      if (payload.navigationHistory)  navigationHistory  = payload.navigationHistory;
-      if (payload.sectionTimings)     sectionTimings     = payload.sectionTimings;
-      if (payload.quizState)          quizState          = payload.quizState;
-      if (payload.csTestLog)          csTestLog          = payload.csTestLog;
-      if (payload.csObservations)     csObservations     = payload.csObservations;
-      if (payload.dp2aSelectedRun !== undefined) dp2aSelectedRun = payload.dp2aSelectedRun;
-      if (payload.dp2aAnalysisRun !== undefined) dp2aAnalysisRun = payload.dp2aAnalysisRun;
-      if (payload.dp2bSelectedRun !== undefined) dp2bSelectedRun = payload.dp2bSelectedRun;
-      if (payload.dp2bAnalysisRun !== undefined) dp2bAnalysisRun = payload.dp2bAnalysisRun;
-      if (payload.briefModelBefore !== undefined) briefModelBefore = payload.briefModelBefore;
-      if (payload.briefModelDuring !== undefined) briefModelDuring = payload.briefModelDuring;
-      if (payload.briefModelAfter  !== undefined) briefModelAfter  = payload.briefModelAfter;
-      if (payload.briefModelCreated !== undefined) briefModelCreated = payload.briefModelCreated;
-    } catch(e) {
-      console.warn('localStorage load failed:', e);
+      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LESSON_CONFIG.legacyStorageKey);
+      lessonState = normalizeLessonState(raw ? JSON.parse(raw) : null);
+      // One-time migration for final reflections stored separately by the earlier lesson.
+      const legacyEvidence = localStorage.getItem('sins_finalReflectionEvidence');
+      const legacyThinking = localStorage.getItem('sins_finalReflectionThinking');
+      if (legacyEvidence && !lessonState.reflections.finalReflectionEvidence) lessonState.reflections.finalReflectionEvidence = legacyEvidence;
+      if (legacyThinking && !lessonState.reflections.finalReflectionThinking) lessonState.reflections.finalReflectionThinking = legacyThinking;
+      syncLegacyAliasesFromState();
+      return Boolean(raw);
+    } catch (error) {
+      lessonState = createDefaultState();
+      syncLegacyAliasesFromState();
+      return false;
     }
   }
+  function loadState() { return loadFromStorage(); }
 
-
-  // ── Export Journal ────────────────────────────────────────────
-
-  /**
-   * Build and download a plain-text export of the student's
-   * full Field Journal, decisions made, and a timestamp.
-   */
-  // ── Export Modal ─────────────────────────────────────────────
-
-  function exportModalOpen() {
-    document.getElementById('export-name-input').value = '';
-    document.getElementById('export-filename-preview').textContent = 'ImpactMotorsJournal.html';
-    document.getElementById('export-modal').classList.add('open');
-    setTimeout(() => document.getElementById('export-name-input').focus(), 100);
+  function clearState() {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(LESSON_CONFIG.legacyStorageKey);
+      localStorage.removeItem('sins_finalReflectionEvidence');
+      localStorage.removeItem('sins_finalReflectionThinking');
+      localStorage.removeItem('sins_dp1_pathA_testLog');
+      localStorage.removeItem('sins_dp1_pathA_observations');
+    } catch (error) {}
+    lessonState = createDefaultState();
+    syncLegacyAliasesFromState();
   }
 
-  function exportModalClose() {
-    document.getElementById('export-modal').classList.remove('open');
-  }
-
-  function exportModalPreview() {
-    const name = document.getElementById('export-name-input').value.trim();
-    const preview = name ? name + 'ImpactMotorsJournal.html' : 'ImpactMotorsJournal.html';
-    document.getElementById('export-filename-preview').textContent = preview;
-  }
-
-  function exportModalConfirm() {
-    const name = document.getElementById('export-name-input').value.trim();
-    exportModalClose();
-    doExportJournal(name);
-  }
-
-  function buildExportHTML(studentId) {
-    const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const val = (k) => { const v = journalData[k]; return (v && String(v).trim()) ? String(v).trim() : ''; };
-
-    const sectionNames = {
-      'section-0': 'Landing Page', 'section-1': 'Start Investigation',
-      'section-2': 'Welcome to Impact Motors', 'section-3': 'Decision Point 1',
-      'section-4a': 'Path A — Review Motion Evidence',
-      'section-4b': 'Path B — Review Vehicle Damage Evidence',
-      'section-5a': 'Convergence — What Did We Notice Across the Evidence?',
-      'section-5b': 'Convergence — Explaining the Crash Pattern',
-      'section-5c': 'What Are We Wondering?',
-      'section-6': 'Decision Point 2 — How Does Energy Move Through a Crash?',
-      'section-7a': 'Path A — Analyze Vehicle Changes',
-      'section-7b': 'Path B — Analyze Surrounding Effects',
-      'section-8': 'Convergence — What Did We Discover About Energy?',
-      'section-8b': 'Modeling Energy Transfer within a Car Crash',
-      'section-9': 'Sharing Scientific Insights with the Engineering Team',
-      'section-10': 'Mission Complete',
-    };
-
-    const dp1Label = decisions.dp1 === 'A' ? 'Review Motion Evidence (Motion path)'
-                   : decisions.dp1 === 'B' ? 'Review Vehicle Damage Evidence (Damage path)' : '—';
-    const dp2Label = decisions.dp2 === 'A' ? 'Analyze Vehicle Changes'
-                   : decisions.dp2 === 'B' ? 'Analyze Surrounding Effects' : '—';
-    const totalSec = Object.values(sectionTimings).reduce((a, b) => a + b, 0);
-
-    // builders
-    const entry = (section, prompt, v) =>
-      '<div class="entry"><div class="ekic">' + esc(section) + '</div>'
-      + '<h3 class="q">' + esc(prompt) + '</h3>'
-      + (v ? '<p class="a">' + esc(v) + '</p>' : '<p class="a empty">[No response]</p>')
-      + '</div>';
-    const dpHTML = (n, label, value, extra) =>
-      '<div class="dp-head"><span class="dp-n">' + n + '</span><div>'
-      + '<div class="dp-t">' + esc(label) + '</div>'
-      + (value ? '<div class="dp-c">You chose: <b>' + esc(value) + '</b></div>' : '<div class="dp-c">(not yet chosen)</div>')
-      + (extra ? '<div class="dp-x">' + extra + '</div>' : '')
-      + '</div></div>';
-
-    let flow = '';
-
-    // ---- DP1 ----
-    flow += dpHTML(1, 'Where will you begin?', dp1Label, '');
-    if (decisions.dp1 === 'A' || (!decisions.dp1 && val('s4a'))) {
-      flow += entry('Path A — Motion', 'What did you notice about the car’s motion before impact in each test run? How did the motion differ between the three test runs? What patterns do you notice?', val('s4a'));
-      // Test data log (student replays + observations)
-      let rows = '';
-      [1, 2, 3].forEach(nn => {
-        const status = csTestLog[nn] ? 'Replayed at ' + esc(csTestLog[nn]) : 'Not replayed';
-        const obs = (csObservations[nn] && String(csObservations[nn]).trim()) ? esc(String(csObservations[nn]).trim()) : '<span class="empty">[No observation]</span>';
-        rows += '<tr><td>Test Run ' + nn + '</td><td>' + status + '</td><td>' + obs + '</td></tr>';
-      });
-      flow += '<div class="model"><div class="model-h">🔬 Test Data Log — Motion Analysis</div>'
-            + '<table class="mtab"><thead><tr><th>Run</th><th>Status</th><th>Observation</th></tr></thead><tbody>'
-            + rows + '</tbody></table></div>';
-    }
-    if (decisions.dp1 === 'B' || (!decisions.dp1 && val('s4b'))) {
-      flow += entry('Path B — Damage', 'What changes do you observe after impact in each test run? How do the changes differ across the test runs? What patterns do you notice about where the vehicle changes or damage appears?', val('s4b'));
-    }
-
-    // ---- Convergence 1 ----
-    flow += entry('Team Briefing — What Did We Notice?', 'What patterns do you notice across the test runs? Use evidence from at least two test runs.', val('s5a'));
-    flow += entry('Team Briefing — Explaining the Crash Pattern', 'How does the Crash Science Briefing help explain why some test runs showed more change than others? What evidence supports your thinking?', val('s5b'));
-
-    // ---- DP2 ----
-    flow += dpHTML(2, 'How does energy move through a crash?', dp2Label, '');
-    if (decisions.dp2 === 'A' || (!decisions.dp2 && val('s7a'))) {
-      flow += entry('Path A — Into the Car', 'What evidence do you see that energy was transferred through the car during the crash? Use details from at least one test run.', val('s7a'));
-      flow += '<div class="note-line">Energy analysis — test run selected: <b>' + (dp2aSelectedRun ? 'Test Run ' + esc(dp2aSelectedRun) : 'None') + '</b> · analysis run: <b>' + (dp2aAnalysisRun ? 'Yes' : 'No') + '</b></div>';
-    }
-    if (decisions.dp2 === 'B' || (!decisions.dp2 && val('s7b'))) {
-      flow += entry('Path B — Into the Surroundings', 'What evidence do you see that energy was transferred to the surroundings during the crash? Use details from at least one test run.', val('s7b'));
-      flow += '<div class="note-line">Energy analysis — test run selected: <b>' + (dp2bSelectedRun ? 'Test Run ' + esc(dp2bSelectedRun) : 'None') + '</b> · analysis run: <b>' + (dp2bAnalysisRun ? 'Yes' : 'No') + '</b></div>';
-    }
-
-    // ---- Convergence 2 ----
-    flow += entry('Team Briefing — What Did We Discover About Energy?', 'Compare what each investigation revealed about energy transfer. Using evidence from both paths, where did the energy go during the crash, and how do you know?', val('s8'));
-
-    // ---- Student model: Crash Energy Model (Section 8B) ----
-    flow += '<div class="model accent"><div class="model-h">🚗 Crash Energy Model — student-built</div>'
-          + '<div class="model-grid">'
-          + '<div class="mcell"><span class="ml">Before the crash</span><span class="mv">' + (briefModelBefore ? esc(briefModelBefore) : '<span class="empty">[No selection]</span>') + '</span></div>'
-          + '<div class="mcell"><span class="ml">During the crash</span><span class="mv">' + (briefModelDuring ? esc(briefModelDuring) : '<span class="empty">[No selection]</span>') + '</span></div>'
-          + '<div class="mcell"><span class="ml">After the crash</span><span class="mv">' + (briefModelAfter ? esc(briefModelAfter) : '<span class="empty">[No selection]</span>') + '</span></div>'
-          + '</div>'
-          + '<div class="model-status">Model generated: <b>' + (briefModelCreated ? 'Yes' : 'No') + '</b></div></div>';
-    flow += entry('Modeling Energy Transfer', 'Look at the crash energy model you built. What evidence led you to choose your model?', val('s8b'));
-
-    // ---- Student artifact: Scientific Brief ----
-    const briefGen = !!journalData['brief_generated'];
-    flow += '<div class="model accent"><div class="model-h">📋 Scientific Brief — student-built' + (briefGen ? ' <span class="badge">Completed</span>' : '') + '</div>'
-          + '<div class="brief-row"><span class="ml">Claim</span><div class="mv">' + (val('brief_claim') ? esc(val('brief_claim')) : '<span class="empty">[No response]</span>') + '</div></div>'
-          + '<div class="brief-row"><span class="ml">Evidence from the car</span><div class="mv">' + (val('brief_evcar') ? esc(val('brief_evcar')) : '<span class="empty">[No response]</span>') + '</div></div>'
-          + '<div class="brief-row"><span class="ml">Evidence from the surroundings</span><div class="mv">' + (val('brief_evsurr') ? esc(val('brief_evsurr')) : '<span class="empty">[No response]</span>') + '</div></div>'
-          + '<div class="brief-row"><span class="ml">Scientific explanation</span><div class="mv">' + (val('brief_expl') ? esc(val('brief_expl')) : '<span class="empty">[No response]</span>') + '</div></div>';
-    if (briefGen) {
-      flow += '<div class="brief-final"><b>Final message to the engineering team:</b> The crash test evidence shows that energy does not disappear during a crash. Understanding where and how energy is transferred can help engineers design safer vehicles.</div>';
-    }
-    flow += '</div>';
-
-    // ---- Final Reflection ----
-    const frEv = (localStorage.getItem('sins_finalReflectionEvidence') || '').trim();
-    const frTh = (localStorage.getItem('sins_finalReflectionThinking') || '').trim();
-    flow += dpHTML('★', 'Final reflection', '', '');
-    flow += entry('Mission Debrief', 'How did this investigation show you how scientists use evidence to explain real-world events?', frEv);
-    flow += entry('Mission Debrief', 'What changed your thinking the most during your investigation, and what evidence caused that change?', frTh);
-
-    // ---- Optional standards quiz ----
-    flow += standardsQuizExportHTML(esc);
-
-    // ---- timing rows ----
-    const timingRows = Object.entries(sectionTimings)
-      .filter(([id, s]) => s > 0)
-      .map(([id, s]) => '<tr><td>' + esc(sectionNames[id] || id) + '</td><td class="t">' + fmtTime(s) + '</td></tr>')
-      .join('') || '<tr><td>No section timing recorded</td><td class="t">&mdash;</td></tr>';
-
-    const css = ':root{--navy:#2E4A72;--navy-dark:#1E3354;--orange:#F97316;--orange-dim:#c45c0d;--blue:#3B82F6;--blue-dim:#2563eb;--off-white:#F8FAFC;--g-light:#E5E7EB;--g-steel:#94A3B8;--g-mid:#C1C9D4;--ink:#1E293B;--success:#22C55E;}'
-      + '*{box-sizing:border-box;}'
-      + "body{margin:0;background:var(--off-white);color:var(--ink);font-family:'Nunito',Verdana,sans-serif;line-height:1.6;font-size:16px;}"
-      + '.wrap{max-width:760px;margin:0 auto;padding:28px 20px 60px;}'
-      + '.hero{background:var(--navy);color:#fff;border-radius:16px;padding:24px;}'
-      + '.hero h1{margin:0;font-size:24px;font-weight:800;}'
-      + '.hero .sub{color:#fdba74;font-weight:700;margin-top:2px;}'
-      + '.meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13.5px;color:#cbd5e1;}'
-      + '.meta b{color:#fff;}'
-      + '.std{margin-top:14px;background:rgba(255,255,255,.10);border-radius:10px;padding:10px 13px;font-size:13px;color:#e2e8f0;}'
-      + 'h1,h2,h3{font-weight:800;}'
-      + '.section-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--g-steel);font-weight:800;margin:30px 0 12px;}'
-      + '.quick{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 4px;}'
-      + '.qcard{flex:1;min-width:150px;background:#fff;border:1px solid var(--g-light);border-radius:12px;padding:12px 14px;border-top:4px solid var(--orange);}'
-      + '.qcard .step{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--g-steel);font-weight:700;}'
-      + '.qcard .pick{font-weight:800;font-size:15px;margin-top:3px;color:var(--navy);}'
-      + '.qcard.time{border-top-color:var(--blue);}.qcard.time .pick{color:var(--blue-dim);}'
-      + '.dp-head{display:flex;gap:12px;align-items:flex-start;background:var(--navy);color:#fff;border-radius:12px;padding:12px 16px;margin:26px 0 14px;}'
-      + '.dp-head .dp-n{width:30px;height:30px;flex:none;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;}'
-      + '.dp-head .dp-t{font-weight:800;font-size:17px;}'
-      + '.dp-head .dp-c{font-size:14px;color:#cbd5e1;}'
-      + '.dp-head .dp-x{font-size:13px;color:#cbd5e1;margin-top:2px;}'
-      + '.entry{background:#fff;border:1px solid var(--g-light);border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:15px 18px;margin-bottom:14px;}'
-      + '.entry .ekic{font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--g-steel);font-weight:700;margin-bottom:4px;}'
-      + '.entry h3.q{margin:0 0 8px;color:var(--navy);font-weight:700;font-size:15px;}'
-      + '.entry .a{margin:0;white-space:pre-wrap;}'
-      + '.empty{color:var(--g-steel);font-style:italic;}'
-      + '.note-line{font-size:13.5px;color:var(--g-steel);margin:-6px 0 16px 4px;}'
-      + '.model{background:#fff;border:1px solid var(--g-light);border-radius:12px;padding:16px 18px;margin-bottom:14px;}'
-      + '.model.accent{border:2px solid var(--orange);background:#fff7ed;}'
-      + '.model-h{font-weight:800;color:var(--orange-dim);margin-bottom:10px;font-size:15px;}'
-      + '.model-h .badge{background:var(--success);color:#fff;font-size:11px;padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:6px;}'
-      + '.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}'
-      + '@media(max-width:560px){.model-grid{grid-template-columns:1fr;}}'
-      + '.mcell{background:#fff;border:1px solid var(--g-light);border-radius:8px;padding:10px;}'
-      + '.mcell .ml,.brief-row .ml{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--g-steel);font-weight:700;margin-bottom:3px;}'
-      + '.mcell .mv{font-weight:700;color:var(--navy);}'
-      + '.model-status{margin-top:10px;font-size:14px;}'
-      + '.mtab{width:100%;border-collapse:collapse;font-size:14px;}'
-      + '.mtab th{text-align:left;color:var(--g-steel);font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding:6px 10px;border-bottom:1px solid var(--g-light);}'
-      + '.mtab td{padding:7px 10px;border-bottom:1px solid var(--g-light);vertical-align:top;}'
-      + '.mtab tr:last-child td{border-bottom:none;}'
-      + '.brief-row{margin-bottom:10px;}'
-      + '.brief-row .mv{white-space:pre-wrap;}'
-      + '.brief-final{background:#fff;border-left:4px solid var(--orange);border-radius:0 8px 8px 0;padding:10px 14px;font-size:14px;margin-top:6px;}'
-      + '.timing{background:#fff;border:1px solid var(--g-light);border-radius:12px;padding:8px 4px;}'
-      + '.timing table{width:100%;border-collapse:collapse;font-size:14px;}'
-      + '.timing td{padding:7px 14px;border-bottom:1px solid var(--g-light);}'
-      + '.timing tr:last-child td{border-bottom:none;}'
-      + '.timing td.t{text-align:right;color:var(--navy);font-weight:700;white-space:nowrap;}'
-      + '.timing .total td{font-weight:800;background:#fff7ed;}'
-      + '.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}'
-      + '.foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--g-light);font-size:12px;color:var(--g-steel);text-align:center;}'
-      + '@media print{body{background:#fff;}.wrap{max-width:none;padding:0;}.entry,.dp-head,.hero,.model{break-inside:avoid;page-break-inside:avoid;}}';
-
-    const html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
-      + '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
-      + '<title>Impact Motors \u2014 Field Journal' + (studentId ? ' \u2014 ' + esc(studentId) : '') + '</title>'
-      + '<link rel="preconnect" href="https://fonts.googleapis.com">'
-      + '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">'
-      + '<style>' + css + '</style></head><body><div class="wrap">'
-      + '<div class="hero"><h1>Impact Motors: Crash Investigation</h1><div class="sub">Field Journal</div>'
-      + '<div class="meta">'
-      + '<span><b>Investigator:</b> ' + (studentId ? esc(studentId) : '(not provided)') + '</span>'
-      + '<span><b>Exported:</b> ' + esc(new Date().toLocaleString()) + '</span>'
-      + '</div>'
-      + '<div class="std"><b>Arizona Grade 5 \u00b7 5.P4U1.6</b> \u2014 Analyze and interpret data to determine how and where energy is transferred when objects move.</div>'
-      + '</div>'
-      + '<div class="quick" aria-label="Quick summary">'
-      + '<div class="qcard"><div class="step">1 \u00b7 Begin</div><div class="pick">' + esc(decisions.dp1 === 'A' ? 'Motion evidence' : decisions.dp1 === 'B' ? 'Damage evidence' : '—') + '</div></div>'
-      + '<div class="qcard"><div class="step">2 \u00b7 Energy</div><div class="pick">' + esc(decisions.dp2 === 'A' ? 'Vehicle changes' : decisions.dp2 === 'B' ? 'Surrounding effects' : '—') + '</div></div>'
-      + '<div class="qcard time"><div class="step">Total time in lesson</div><div class="pick">' + fmtTime(totalSec) + '</div></div>'
-      + '</div>'
-      + '<h2 class="section-label">Field journal &amp; student-built models</h2>'
-      + flow
-      + '<h2 class="section-label">Lesson data</h2>'
-      + '<div class="timing"><table><caption class="sr-only">Time spent on each section of the lesson.</caption><tbody>'
-      + timingRows
-      + '<tr class="total"><td>Total time in lesson</td><td class="t">' + fmtTime(totalSec) + '</td></tr>'
-      + '</tbody></table></div>'
-      + '<div class="foot">\u00a9 2026 Brooke Toon \u00b7 Stories in Science Framework \u00b7 Generative AI tools were used to support development of this instructional material.</div>'
-      + '</div></body></html>';
-    return html;
-  }
-
-  function doExportJournal(studentId) {
-    const html     = buildExportHTML(studentId);
-    const name     = (studentId || '').trim();
-    const filename = name ? name + 'ImpactMotorsJournal.html' : 'ImpactMotorsJournal.html';
-    const blob     = new Blob([html], { type: 'text/html; charset=utf-8' });
-    const url      = URL.createObjectURL(blob);
-    const a        = document.createElement('a');
-    a.href         = url;
-    a.download     = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-
-  // Keep legacy name so any old inline onclick="exportJournal()" still works
-  function exportJournal() { exportModalOpen(); }
+  // ── Journal export is rendered from lessonState by the consistency retrofit.
 
   // ── Final Reflection save / restore ──────────────────────────
-
   function saveFinalReflection(key, value) {
-    localStorage.setItem('sins_' + key, value);
+    lessonState.reflections[key] = value;
+    recordInteractionEncounter('reflection', key, 'Final Reflection');
+    saveToStorage();
     const badge = document.getElementById('saved-finalReflection');
-    if (badge) { badge.style.opacity = '1'; }
+    if (badge) { badge.classList.add('visible'); clearTimeout(badge._timeout); badge._timeout = setTimeout(() => badge.classList.remove('visible'), 1600); }
   }
-
   function restoreFinalReflection() {
-    ['finalReflectionEvidence', 'finalReflectionThinking'].forEach(key => {
-      const el  = document.getElementById(key);
-      const val = localStorage.getItem('sins_' + key);
-      if (el && val) el.value = val;
+    ['finalReflectionEvidence','finalReflectionThinking'].forEach(key => {
+      const el = document.getElementById(key);
+      if (el) el.value = lessonState.reflections[key] || '';
     });
   }
-
 
   // ============================================================
   // OPTIONAL STANDARDS QUIZ — Arizona Standard 5.P4U1.6
@@ -5318,7 +5310,7 @@ Where will you start your energy analysis?      </p>
   function submitStandardsQuiz() {
     const unanswered = standardsQuiz.filter((_, i) => quizState.answers[i] === undefined).length;
     if (unanswered) {
-      alert('Please answer all six questions before submitting the quiz.');
+      showQuizValidation('Please answer all six questions before submitting the quiz.');
       return;
     }
     quizState.submitted = true;
@@ -5417,104 +5409,7 @@ Where will you start your energy analysis?      </p>
   }
 
 
-  // ── Restart Lesson ───────────────────────────────────────────
-
-  /**
-   * Clear all stored progress and return to Section 0.
-   */
-  // ── Restart Confirm Modal ────────────────────────────────────
-
-  function confirmModalOpen() {
-    document.getElementById('confirm-modal').classList.add('open');
-  }
-
-  function confirmModalClose() {
-    document.getElementById('confirm-modal').classList.remove('open');
-  }
-
-  function confirmModalYes() {
-    confirmModalClose();
-    doRestartLesson();
-  }
-
-  // ── Glossary Modal ───────────────────────────────────────────
-
-  function glossaryModalOpen() {
-    document.getElementById('glossary-modal').classList.add('open');
-    // Scroll the glossary body back to the top each time it opens
-    const body = document.querySelector('#glossary-modal .im-glossary-body');
-    if (body) body.scrollTop = 0;
-  }
-
-  function glossaryModalClose() {
-    document.getElementById('glossary-modal').classList.remove('open');
-  }
-
-  // Close when clicking the dimmed backdrop (but not when clicking inside the box)
-  function glossaryModalBackdrop(event) {
-    if (event.target.id === 'glossary-modal') glossaryModalClose();
-  }
-
-  // Close on Escape key when the modal is open
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      const modal = document.getElementById('glossary-modal');
-      if (modal && modal.classList.contains('open')) glossaryModalClose();
-    }
-  });
-
-  function doRestartLesson() {
-    ttsStop();
-    // Clear all localStorage keys for this lesson
-    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
-    // Clear carsim storage
-    try { localStorage.removeItem(CS_LS_LOG_KEY); } catch(e) {}
-    try { localStorage.removeItem(CS_LS_OBSERVATIONS_KEY); } catch(e) {}
-
-    try { localStorage.removeItem('sins_finalReflectionEvidence'); } catch(e) {}
-    try { localStorage.removeItem('sins_finalReflectionThinking'); } catch(e) {}
-
-    // Reset all in-memory state
-    decisions         = {};
-    journalData       = {};
-    navigationHistory = [];
-    sectionTimings    = {};
-    quizState         = { choice: null, answers: {}, submitted: false, score: null };
-    csTestLog         = { 1: null, 2: null, 3: null };
-    csObservations    = { 1: '', 2: '', 3: '' };
-    dp2aSelectedRun   = null;
-    dp2aAnalysisRun   = false;
-    dp2bSelectedRun   = null;
-    dp2bAnalysisRun   = false;
-    briefModelBefore  = null;
-    briefModelDuring  = null;
-    briefModelAfter   = null;
-    briefModelCreated = false;
-    savedCurrentSection = null;
-
-    // Clear all textareas and brief fields
-    document.querySelectorAll('.journal-textarea, .s10-brief-textarea').forEach(el => el.value = '');
-    // Clear carsim observation textareas (dynamically rendered)
-    document.querySelectorAll('.cs-obs-textarea').forEach(el => el.value = '');
-    // Clear model toggles and diagram
-    document.querySelectorAll('.bm-toggle-opt').forEach(b => b.classList.remove('bm-active'));
-    document.querySelectorAll('.bm-box').forEach(b => { b.textContent = 'Choose a toggle above.'; b.classList.remove('bm-filled'); });
-    const s8bDiag = document.getElementById('s8b-diagram');
-    if (s8bDiag) s8bDiag.classList.remove('bm-diagram-show');
-    const s8bJournal = document.getElementById('s8b-journal-wrap');
-    if (s8bJournal) s8bJournal.style.display = 'none';
-    const briefOutput = document.getElementById('brief-output');
-    if (briefOutput) briefOutput.classList.remove('visible');
-    resetStandardsQuizUI();
-
-    csResetCarToStart();
-    csRenderDataLog();
-    navigateTo('section-0');
-  }
-
-  // Keep old name working for any stray references
-  function restartLesson() { confirmModalOpen(); }
-
+  // ── Restart, drawers, and modals are handled by the consistency retrofit.
 
   // ── Objectives Accordion ──────────────────────────────────────
 
@@ -5551,8 +5446,8 @@ Where will you start your energy analysis?      </p>
   let csAnimationTimer = null;
   let csIsAnimating    = false;
   let csCurrentCarX    = CAR_START_X;
-  let csTestLog        = { 1: null, 2: null, 3: null };
-  let csObservations   = { 1: '', 2: '', 3: '' };
+  let csTestLog        = lessonState.evidenceSelections.motionTestLog;
+  let csObservations   = lessonState.evidenceSelections.motionObservations;
 
   document.addEventListener('DOMContentLoaded', () => {
     csLoadPersistedData();
@@ -5656,33 +5551,20 @@ Where will you start your energy analysis?      </p>
 
   function csSaveObservation(n, value) {
     csObservations[n] = value;
-    try { localStorage.setItem(CS_LS_OBSERVATIONS_KEY, JSON.stringify(csObservations)); } catch(e) {}
+    lessonState.evidenceSelections.motionObservations = csObservations;
+    recordInteractionEncounter('motion-observation', String(n), 'Test Run ' + n);
+    saveToStorage();
   }
 
   function csSavePersistedData() {
-    try { localStorage.setItem(CS_LS_LOG_KEY, JSON.stringify(csTestLog)); } catch(e) {}
-    try { localStorage.setItem(CS_LS_OBSERVATIONS_KEY, JSON.stringify(csObservations)); } catch(e) {}
+    lessonState.evidenceSelections.motionTestLog = csTestLog;
+    lessonState.evidenceSelections.motionObservations = csObservations;
+    saveToStorage();
   }
 
   function csLoadPersistedData() {
-    try {
-      const savedLog = localStorage.getItem(CS_LS_LOG_KEY);
-      if (savedLog) {
-        const parsed = JSON.parse(savedLog);
-        if (parsed && typeof parsed === 'object') {
-          [1,2,3].forEach(n => { if (parsed[n] !== undefined) csTestLog[n] = parsed[n]; });
-        }
-      }
-    } catch(e) {}
-    try {
-      const savedObs = localStorage.getItem(CS_LS_OBSERVATIONS_KEY);
-      if (savedObs) {
-        const parsed = JSON.parse(savedObs);
-        if (parsed && typeof parsed === 'object') {
-          [1,2,3].forEach(n => { if (parsed[n] !== undefined) csObservations[n] = parsed[n]; });
-        }
-      }
-    } catch(e) {}
+    csTestLog = lessonState.evidenceSelections.motionTestLog;
+    csObservations = lessonState.evidenceSelections.motionObservations;
   }
 
 
@@ -5980,7 +5862,7 @@ Where will you start your energy analysis?      </p>
     const imgAna7a    = document.getElementById('ea7a-img-analysis');
     const label7a     = document.getElementById('ea7a-label');
     const btnAna7a    = document.getElementById('ea7a-btn-analyse');
-    let selectedRun7a = null;
+    let selectedRun7a = dp2aSelectedRun;
 
     function hideAnalysis7a() {
       result7a.classList.add('is-hidden');
@@ -6045,7 +5927,7 @@ label7a.textContent = 'Energy Analysis – Test Run ' + selectedRun7a + ' (Path 
     const imgAna7b    = document.getElementById('ea7b-img-analysis');
     const label7b     = document.getElementById('ea7b-label');
     const btnAna7b    = document.getElementById('ea7b-btn-analyse');
-    let selectedRun7b = null;
+    let selectedRun7b = dp2bSelectedRun;
 
     function hideAnalysis7b() {
       result7b.classList.add('is-hidden');
@@ -6089,7 +5971,7 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
   // TIME TRACKING
   // ============================================================
 
-  let sectionTimings    = {};  // sectionId → total seconds spent
+  let sectionTimings    = lessonState.timing.timePerSection;  // sectionId → total seconds spent
   let sectionStartTime  = null; // Date.now() when current section started
 
   function timeTrackingInit() {
@@ -6163,7 +6045,8 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
 
   function ttsToggle(sectionId, btn) {
     if (!('speechSynthesis' in window)) {
-      alert('Text-to-speech is not supported in this browser.');
+      announceStatus('Text-to-speech is not supported in this browser.');
+      if (btn) { btn.classList.remove('tts-playing'); btn.innerHTML = '<span class="tts-icon">🔊</span> Listen'; }
       return;
     }
     if (ttsActiveSectionId === sectionId && window.speechSynthesis.speaking) {
@@ -6223,10 +6106,627 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
   }
 
 
+  // Load persisted progress before any DOMContentLoaded renderer can save defaults.
+  loadFromStorage();
+
 </script>
 
 <!-- Hotspot portal for section 4B (DP1PB) -->
 <div id="hotspot-portal" role="tooltip" aria-live="polite"></div>
+
+
+<script id="stories-in-science-consistency-behavior">
+(function () {
+  'use strict';
+
+  const STAGE_ORDER = ['evidence','patterns','energy','model','communicate'];
+  const STAGE_IDS = {
+    evidence:'tracker-evidence', patterns:'tracker-patterns', energy:'tracker-energy', model:'tracker-model', communicate:'tracker-communicate'
+  };
+  const SCREEN_TITLES = {
+    'section-1':'Start Investigation', 'section-2':'Welcome to Impact Motors', 'section-3':'Where Will You Begin?',
+    'section-4a':'Review Motion Evidence', 'section-4b':'Review Vehicle Damage Evidence',
+    'section-5a':'Team Briefing: What Did We Notice Across the Evidence?', 'section-5b':'Team Briefing: Explaining the Crash Pattern',
+    'section-5c':'What Are We Wondering?', 'section-6':'How Does Energy Move Through a Crash?',
+    'section-7a':'Analyze Vehicle Changes', 'section-7b':'Analyze Surrounding Effects',
+    'section-8':'Team Briefing: What Did We Discover About Energy?',
+    'section-8b':'Modeling Energy Transfer within a Car Crash',
+    'section-9':'Sharing Your Scientific Insights with the Engineering Team',
+    'section-10':'Investigation Complete: Helping Impact Motors'
+  };
+
+  function prefersReducedMotion() { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  function announceStatus(message) {
+    const el = document.getElementById('global-status');
+    if (!el) return;
+    el.textContent = '';
+    setTimeout(() => { el.textContent = message; }, 20);
+  }
+  window.announceStatus = announceStatus;
+
+  // ---- Unified navigation and tracker ----
+  window.startLesson = function (target) {
+    lessonState.started = true;
+    if (!lessonState.timing.currentSectionStart) lessonState.timing.currentSectionStart = Date.now();
+    navigateTo(target);
+  };
+
+  window.navigateTo = function (sectionId) {
+    if (!document.getElementById(sectionId)) return;
+    if (currentSection !== sectionId) navigationHistory.push(currentSection);
+    showSection(sectionId);
+  };
+
+  window.goBack = function () {
+    const previous = navigationHistory.length ? navigationHistory.pop() : (currentSection !== 'section-0' ? 'section-0' : null);
+    if (previous) showSection(previous);
+  };
+
+  window.makeDecision = function (dpKey, choice, sectionId) {
+    decisions[dpKey] = choice;
+    lessonState.decisions = decisions;
+    recordInteractionEncounter('decision', dpKey, choice);
+    saveToStorage();
+    navigateTo(sectionId);
+  };
+
+  window.showSection = function (sectionId) {
+    if (!document.getElementById(sectionId)) return;
+    if (typeof ttsStop === 'function') ttsStop();
+    if (typeof timeTrackingLeave === 'function') timeTrackingLeave();
+    document.querySelectorAll('.section').forEach(section => {
+      const active = section.id === sectionId;
+      section.classList.toggle('active', active);
+      section.hidden = !active;
+    });
+    currentSection = sectionId;
+    lessonState.currentScreen = sectionId;
+    lessonState.currentStage = getStageForScreen(sectionId);
+    if (sectionId !== 'section-0') {
+      lessonState.started = true;
+      recordScreenEncounter(sectionId);
+    }
+    if (sectionId === 'section-10') lessonState.completed = true;
+    updateProgress(sectionId);
+    if (typeof timeTrackingEnter === 'function') timeTrackingEnter(sectionId);
+    saveToStorage();
+    window.scrollTo({ top:0, behavior:prefersReducedMotion() ? 'auto' : 'smooth' });
+    setTimeout(focusCurrentHeading, prefersReducedMotion() ? 0 : 180);
+  };
+
+  window.updateProgress = function (sectionId) {
+    const launch = sectionId === 'section-0';
+    const header = document.getElementById('active-lesson-header');
+    const tracker = document.getElementById('investigation-tracker');
+    if (header) header.hidden = launch;
+    if (tracker) tracker.hidden = launch;
+    renderTracker();
+    updateCompletionActions();
+  };
+
+  function renderTracker() {
+    const currentStage = getStageForScreen(currentSection);
+    const currentIndex = STAGE_ORDER.indexOf(currentStage);
+    STAGE_ORDER.forEach((stage,index) => {
+      const el = document.getElementById(STAGE_IDS[stage]);
+      if (!el) return;
+      const completed = index < currentIndex || (lessonState.completed && index === STAGE_ORDER.length - 1);
+      const current = stage === currentStage && currentStage !== 'launch';
+      el.classList.toggle('completed', completed);
+      el.classList.toggle('current', current);
+      if (current) el.setAttribute('aria-current','step'); else el.removeAttribute('aria-current');
+      const icon = el.querySelector('.tracker-step-icon');
+      if (icon) icon.textContent = completed ? '✓' : String(index + 1);
+    });
+  }
+
+  function focusCurrentHeading() {
+    const section = document.getElementById(currentSection);
+    if (!section) return;
+    const heading = section.querySelector('.section-title,.s0-title,.cover-title,h1,h2');
+    if (!heading) return;
+    heading.setAttribute('tabindex','-1');
+    heading.classList.add('lesson-heading-focus');
+    heading.focus({ preventScroll:true });
+  }
+
+  // ---- Required response validation ----
+  window.continueTo = function (target) {
+    saveToStorage();
+    const result = validateCurrentScreen(currentSection);
+    if (!result.valid) { showValidation(result); return; }
+    navigateTo(target);
+  };
+  function validResult() { return { valid:true }; }
+  function invalidResult(message, selector) { return { valid:false, message, selector }; }
+  function response(key) { return String(journalData[key] || '').trim(); }
+  function validateCurrentScreen(screenId) {
+    if (screenId === 'section-4a') {
+      if ([1,2,3].some(n => !csTestLog[n])) return invalidResult('Replay all three test runs before continuing.', '#section-4a .cs-test-controls');
+      if (!response('s4a')) return invalidResult('Record the motion pattern you noticed before continuing.', '#journal-s4a');
+    }
+    if (screenId === 'section-4b') {
+      const views = lessonState.evidenceSelections.damageCardViews || {};
+      if ([1,2,3].some(n => views[n] !== 'after')) return invalidResult('View the after-impact evidence for all three test runs before continuing.', '#section-4b .pb-tests-grid');
+      const hotspots = lessonState.evidenceSelections.damageHotspots || [];
+      if ([1,2,3].some(n => !hotspots.some(item => Number(item.card) === n))) return invalidResult('Examine at least one impact area in each test run before continuing.', '#section-4b .pb-tests-grid');
+      if (!response('s4b')) return invalidResult('Describe the vehicle-change evidence before continuing.', '#journal-s4b');
+    }
+    if (screenId === 'section-5a' && !response('s5a')) return invalidResult('Describe the pattern across at least two test runs before continuing.', '#journal-s5a');
+    if (screenId === 'section-5b' && !response('s5b')) return invalidResult('Explain the crash pattern using the briefing before continuing.', '#journal-s5b');
+    if (screenId === 'section-7a') {
+      if (!dp2aSelectedRun) return invalidResult('Select one test run before continuing.', '#embed-7a .ea-run-selector');
+      if (!dp2aAnalysisRun) return invalidResult('Run the vehicle energy analysis before continuing.', '#ea7a-btn-analyse');
+      if (!response('s7a')) return invalidResult('Explain the evidence of energy transfer through the car before continuing.', '#journal-s7a');
+    }
+    if (screenId === 'section-7b') {
+      if (!dp2bSelectedRun) return invalidResult('Select one test run before continuing.', '#embed-7b .ea-run-selector');
+      if (!dp2bAnalysisRun) return invalidResult('Run the surroundings energy analysis before continuing.', '#ea7b-btn-analyse');
+      if (!response('s7b')) return invalidResult('Describe the evidence of energy transfer to the surroundings before continuing.', '#journal-s7b');
+    }
+    if (screenId === 'section-8' && !response('s8')) return invalidResult('Compare what both investigation paths revealed before continuing.', '#journal-s8');
+    if (screenId === 'section-8b') {
+      if (!briefModelCreated) return invalidResult('Complete and generate the crash energy model before continuing.', '#section-8b .s8b-model-outer');
+      if (!response('s8b')) return invalidResult('Explain what crash-test evidence supports your model before continuing.', '#journal-s8b');
+    }
+    if (screenId === 'section-9') {
+      const keys = ['brief_claim','brief_evcar','brief_evsurr','brief_expl'];
+      const missing = keys.find(key => !response(key));
+      const ids = {brief_claim:'#brief-claim',brief_evcar:'#brief-ev-car',brief_evsurr:'#brief-ev-surr',brief_expl:'#brief-explanation'};
+      if (missing) return invalidResult('Complete every part of the scientific brief before continuing.', ids[missing]);
+      if (!journalData.brief_generated) return invalidResult('Generate the scientific brief before continuing.', '#brief-create-btn');
+    }
+    return validResult();
+  }
+  window.validateCurrentScreen = validateCurrentScreen;
+
+  function showValidation(result) {
+    const target = document.querySelector(result.selector) || document.getElementById(currentSection);
+    if (!target) return;
+    let message = target.parentElement && target.parentElement.querySelector(':scope > .validation-message');
+    if (!message) {
+      message = document.createElement('div');
+      message.className = 'validation-message';
+      message.setAttribute('role','alert');
+      target.insertAdjacentElement('afterend', message);
+    }
+    message.textContent = result.message;
+    message.classList.add('show');
+    target.classList.add('needs-attention');
+    target.scrollIntoView({ behavior:prefersReducedMotion() ? 'auto' : 'smooth', block:'center' });
+    const focusTarget = target.matches('textarea,input,button,select,[tabindex]') ? target : target.querySelector('textarea,input,button,select,[tabindex]');
+    if (focusTarget) focusTarget.focus();
+    announceStatus(result.message);
+    setTimeout(() => target.classList.remove('needs-attention'), 1800);
+  }
+
+  // ---- Overlay focus management ----
+  let activeOverlayId = null;
+  const returnFocus = new Map();
+  function focusable(root) { return [...root.querySelectorAll('button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])')].filter(el => !el.hidden && el.offsetParent !== null); }
+  function closeAllOverlays(exceptId) {
+    ['glossary-drawer','journal-drawer','restart-modal','export-modal'].forEach(id => { if (id !== exceptId) closeOverlay(id,false); });
+  }
+  function openOverlay(id, initialFocus) {
+    closeAllOverlays(id);
+    const overlay = document.getElementById(id);
+    if (!overlay) return;
+    returnFocus.set(id, document.activeElement);
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden','false');
+    document.body.classList.add('ui-locked');
+    activeOverlayId = id;
+    const focusTarget = initialFocus || focusable(overlay)[0] || overlay.querySelector('[tabindex="-1"]');
+    setTimeout(() => focusTarget && focusTarget.focus(), 20);
+  }
+  function closeOverlay(id, restore=true) {
+    const overlay = document.getElementById(id);
+    if (!overlay || !overlay.classList.contains('active')) return;
+    overlay.classList.remove('active');
+    overlay.setAttribute('aria-hidden','true');
+    if (activeOverlayId === id) activeOverlayId = null;
+    if (!activeOverlayId) document.body.classList.remove('ui-locked');
+    if (restore) {
+      const el = returnFocus.get(id);
+      if (el && document.contains(el)) setTimeout(() => el.focus(),20);
+    }
+  }
+  window.showGlossaryDrawer = function () { openOverlay('glossary-drawer', document.querySelector('#glossary-drawer .drawer-panel')); };
+  window.closeGlossaryDrawer = function () { closeOverlay('glossary-drawer'); };
+  window.showJournalDrawer = function () { renderJournal(); openOverlay('journal-drawer', document.querySelector('#journal-drawer .drawer-panel')); };
+  window.closeJournalDrawer = function () { closeOverlay('journal-drawer'); };
+  window.showRestartModal = function () { openOverlay('restart-modal', document.getElementById('keep-progress-button')); };
+  window.closeRestartModal = function () { closeOverlay('restart-modal'); };
+  window.showExportModal = function () {
+    const input = document.getElementById('export-name-input');
+    if (input) input.value = '';
+    updateExportPreview();
+    openOverlay('export-modal', input);
+  };
+  window.closeExportModal = function () { closeOverlay('export-modal'); };
+  // Compatibility names retained for existing lesson buttons.
+  window.exportModalOpen = window.showExportModal;
+  window.exportModalClose = window.closeExportModal;
+  window.glossaryModalOpen = window.showGlossaryDrawer;
+  window.glossaryModalClose = window.closeGlossaryDrawer;
+  window.confirmModalOpen = window.showRestartModal;
+  window.confirmModalClose = window.closeRestartModal;
+
+  document.querySelectorAll('[data-close-overlay]').forEach(scrim => scrim.addEventListener('click', () => closeOverlay(scrim.dataset.closeOverlay)));
+  ['restart-modal','export-modal'].forEach(id => {
+    const overlay = document.getElementById(id);
+    if (overlay) overlay.addEventListener('click', event => { if (event.target === overlay) closeOverlay(id); });
+  });
+  document.addEventListener('keydown', event => {
+    if (!activeOverlayId) return;
+    const overlay = document.getElementById(activeOverlayId);
+    if (event.key === 'Escape') { event.preventDefault(); closeOverlay(activeOverlayId); return; }
+    if (event.key !== 'Tab' || !overlay) return;
+    const items = focusable(overlay);
+    if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+
+  // ---- Restart ----
+  window.confirmRestart = function () {
+    closeOverlay('restart-modal',false);
+    if (typeof ttsStop === 'function') ttsStop();
+    clearState();
+    document.querySelectorAll('textarea,input[type="text"]').forEach(el => { if (!['export-name-input'].includes(el.id)) el.value=''; });
+    document.querySelectorAll('.bm-toggle-opt').forEach(btn => btn.classList.remove('bm-active'));
+    document.querySelectorAll('.bm-box').forEach(box => { box.textContent='Choose a toggle above.'; box.classList.remove('bm-filled'); });
+    const diagram=document.getElementById('s8b-diagram'); if (diagram) diagram.classList.remove('bm-diagram-show');
+    const modelJournal=document.getElementById('s8b-journal-wrap'); if (modelJournal) modelJournal.style.display='none';
+    const briefOutput=document.getElementById('brief-output'); if (briefOutput) briefOutput.classList.remove('visible');
+    if (typeof resetStandardsQuizUI === 'function') resetStandardsQuizUI();
+    if (typeof csResetCarToStart === 'function') csResetCarToStart();
+    if (typeof csRenderDataLog === 'function') csRenderDataLog();
+    showSection('section-0');
+    announceStatus('Lesson progress was cleared.');
+  };
+  window.confirmModalYes = window.confirmRestart;
+  window.doRestartLesson = window.confirmRestart;
+  window.restartLesson = window.showRestartModal;
+
+  // ---- Interaction recording wrappers ----
+  const originalSaveJournal = window.saveJournal;
+  window.saveJournal = function (key,value) {
+    journalData[key] = value;
+    lessonState.textResponses = journalData;
+    recordInteractionEncounter('text-response', key, SCREEN_TITLES[currentSection] || currentSection);
+    if (originalSaveJournal) originalSaveJournal(key,value); else saveToStorage();
+  };
+
+  const originalCsFinishTest = window.csFinishTest;
+  window.csFinishTest = function (testNumber) {
+    originalCsFinishTest(testNumber);
+    if (!lessonState.evidenceSelections.motionTestOrder.includes(testNumber)) lessonState.evidenceSelections.motionTestOrder.push(testNumber);
+    recordInteractionEncounter('motion-test', String(testNumber), 'Test Run ' + testNumber);
+    saveToStorage();
+  };
+
+  const originalToggleHotspot = window.toggleHotspot;
+  window.toggleHotspot = function (button) {
+    originalToggleHotspot(button);
+    const item = { card:Number(button.dataset.card), title:button.dataset.title || '', text:button.dataset.text || '', encounteredAt:Date.now() };
+    const list = lessonState.evidenceSelections.damageHotspots;
+    if (!list.some(existing => existing.card === item.card && existing.title === item.title)) list.push(item);
+    recordInteractionEncounter('damage-hotspot', item.card + ':' + item.title, 'Test Run ' + item.card);
+    saveToStorage();
+  };
+
+  const originalSetToggle = window.setToggle;
+  window.setToggle = function (card,stateValue) {
+    originalSetToggle(card,stateValue);
+    lessonState.evidenceSelections.damageCardViews[card] = stateValue;
+    recordInteractionEncounter('damage-view', card + ':' + stateValue, 'Test Run ' + card);
+    saveToStorage();
+  };
+
+  const originalS8bPick = window.s8bPick;
+  window.s8bPick = function (button) {
+    originalS8bPick(button);
+    recordInteractionEncounter('model-selection', button.dataset.phase, button.dataset.val);
+    saveToStorage();
+  };
+  const originalS8bCreate = window.s8bCreateModel;
+  window.s8bCreateModel = function () {
+    originalS8bCreate();
+    if (briefModelCreated) recordInteractionEncounter('model-created','crash-energy','Before → During → After');
+    saveToStorage();
+  };
+
+  const originalGenerateBrief = window.generateBrief;
+  window.generateBrief = function () {
+    originalGenerateBrief();
+    lessonState.recommendations.scientificBrief.generated = Boolean(journalData.brief_generated);
+    if (journalData.brief_generated) recordInteractionEncounter('scientific-brief','generated','Impact Motors Scientific Brief');
+    saveToStorage();
+  };
+
+  // Slider exploration is meaningful evidence interaction.
+  const speedSlider = document.getElementById('speedSlider');
+  if (speedSlider) speedSlider.addEventListener('input', () => {
+    lessonState.evidenceSelections.speedBriefing = { value:Number(speedSlider.value), explored:true };
+    recordInteractionEncounter('speed-model','slider','Crash Science Briefing');
+    saveToStorage();
+  });
+
+  // Observe energy-analysis state changes already made by the lesson handlers.
+  ['ea7a-btn-analyse','ea7b-btn-analyse'].forEach(id => {
+    const button=document.getElementById(id);
+    if (button) button.addEventListener('click', () => { setTimeout(() => { saveToStorage(); recordInteractionEncounter('energy-analysis',id,id==='ea7a-btn-analyse'?'Vehicle changes':'Surrounding effects'); },0); });
+  });
+  document.querySelectorAll('#embed-7a .ea-btn--run,#embed-7b .ea-btn--run').forEach(btn => btn.addEventListener('click', () => setTimeout(saveToStorage,0)));
+
+  // ---- Optional quiz: save attempts/revisions and avoid browser alerts ----
+  window.chooseStandardsQuiz = function (takeQuiz, restoring=false) {
+    quizState.choice = takeQuiz ? 'yes' : 'no';
+    quizState.started = takeQuiz || quizState.started;
+    const yesBtn=document.getElementById('standards-quiz-yes'), noBtn=document.getElementById('standards-quiz-no');
+    const area=document.getElementById('standards-quiz-area'), skipped=document.getElementById('standards-quiz-skipped');
+    if (yesBtn) { yesBtn.classList.toggle('active',takeQuiz); yesBtn.setAttribute('aria-pressed',String(takeQuiz)); yesBtn.disabled=Boolean(quizState.submitted); }
+    if (noBtn) { noBtn.classList.toggle('active',!takeQuiz); noBtn.setAttribute('aria-pressed',String(!takeQuiz)); noBtn.disabled=Boolean(quizState.submitted); }
+    if (area) area.style.display=takeQuiz?'block':'none';
+    if (skipped) skipped.style.display=takeQuiz?'none':'block';
+    if (takeQuiz) { recordInteractionEncounter('quiz','opened','Optional Standards Quiz'); renderStandardsQuiz(); }
+    if (!restoring) saveToStorage();
+    updateCompletionActions();
+  };
+  window.selectStandardsQuizAnswer = function (questionIndex,optionIndex) {
+    if (quizState.submitted) return;
+    const previous=quizState.answers[questionIndex];
+    quizState.attempts[questionIndex]=(quizState.attempts[questionIndex]||0)+1;
+    if (previous !== undefined && previous !== optionIndex) quizState.revisions[questionIndex]=(quizState.revisions[questionIndex]||0)+1;
+    quizState.answers[questionIndex]=optionIndex;
+    quizState.started=true;
+    recordInteractionEncounter('quiz-answer',String(questionIndex),'Question '+(questionIndex+1));
+    renderStandardsQuiz();
+    saveToStorage();
+  };
+  window.submitStandardsQuiz = function () {
+    const unanswered=standardsQuiz.filter((_,i)=>quizState.answers[i]===undefined).length;
+    if (unanswered) { showQuizValidation('Please answer all six questions before submitting the quiz.'); return; }
+    quizState.submitted=true; quizState.completed=true;
+    quizState.score=standardsQuiz.reduce((sum,item,i)=>sum+(quizState.answers[i]===item.correct?1:0),0);
+    renderStandardsQuiz(); saveToStorage(); updateCompletionActions();
+    const card=document.getElementById('standards-quiz-score-card'); if(card) card.scrollIntoView({behavior:prefersReducedMotion()?'auto':'smooth',block:'center'});
+  };
+  window.showQuizValidation = function (message) {
+    const area=document.getElementById('standards-quiz-area');
+    if (!area) return;
+    let el=document.getElementById('quiz-validation-message');
+    if (!el) { el=document.createElement('div'); el.id='quiz-validation-message'; el.className='validation-message'; el.setAttribute('role','alert'); area.prepend(el); }
+    el.textContent=message; el.classList.add('show'); announceStatus(message); el.scrollIntoView({behavior:prefersReducedMotion()?'auto':'smooth',block:'center'});
+  };
+
+  function updateCompletionActions() {
+    const button=document.getElementById('completion-quiz-button');
+    if (button) button.textContent=quizState.submitted?'Review Optional Quiz':'Take Optional Quiz';
+  }
+  window.focusOptionalQuiz = function () {
+    const intro=document.querySelector('.standards-quiz-intro');
+    if (!intro) return;
+    intro.scrollIntoView({behavior:prefersReducedMotion()?'auto':'smooth',block:'start'});
+    const heading=intro.querySelector('h2'); if(heading){heading.setAttribute('tabindex','-1');heading.focus();}
+  };
+
+  // ---- Journal and export ----
+  function escapeHTML(value) { return String(value == null ? '' : value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function hasText(key) { return Boolean(String(journalData[key] || '').trim()); }
+  function entry(label,prompt,value,context) { return {type:'entry',label,prompt,value:String(value||'').trim(),context:context||''}; }
+  function evidence(label,items,context) { return {type:'evidence',label,items,context:context||''}; }
+  function model(label,data) { return {type:'model',label,data}; }
+
+  function buildJournalSections() {
+    syncStateFromLegacyAliases();
+    const sections=[];
+    const encountered=lessonState.encounteredScreens || [];
+    encountered.forEach(screenId => {
+      const items=[];
+      if (screenId==='section-3' && decisions.dp1) {
+        items.push(entry('First investigation path selected','Where will you start?',decisions.dp1==='A'?'Review Motion Evidence — examine how the car was moving':'Review Vehicle Damage Evidence — examine how the car changed during the crash'));
+      }
+      if (screenId==='section-4a') {
+        const order=lessonState.evidenceSelections.motionTestOrder.length?lessonState.evidenceSelections.motionTestOrder:[1,2,3].filter(n=>csTestLog[n]);
+        const records=order.map(n => {
+          const observation=String(csObservations[n]||'').trim();
+          return 'Test Run '+n+': replayed'+(observation?' — '+observation:'');
+        });
+        if (records.length) items.push(evidence('Motion evidence examined',records,'Test Data Log'));
+        if (hasText('s4a')) items.push(entry('Motion pattern analysis','What did you notice about the car’s motion before impact in each test run? How did the car’s motion differ across the test runs? What patterns do you notice?',journalData.s4a));
+      }
+      if (screenId==='section-4b') {
+        const seen=lessonState.evidenceSelections.damageHotspots || [];
+        if (seen.length) items.push(evidence('Vehicle-change evidence examined',seen.map(item=>'Test Run '+item.card+' — '+item.title+': '+item.text),'Before/after evidence and impact-area hotspots'));
+        if (hasText('s4b')) items.push(entry('Vehicle-change pattern analysis','What changes do you observe after impact in each test run? How do the changes differ across the test runs? What patterns do you notice about where the vehicle changes or damage appears?',journalData.s4b));
+      }
+      if (screenId==='section-5a' && hasText('s5a')) items.push(entry('Evidence pattern','What patterns do you notice across the test runs? Use evidence from at least two test runs.',journalData.s5a));
+      if (screenId==='section-5b') {
+        const sliderState=lessonState.evidenceSelections.speedBriefing;
+        if (sliderState && sliderState.explored) items.push(entry('Crash Science Briefing model explored','Speed selected in the interactive model',sliderState.value+' out of 100','Faster motion changes the energy and possible crash effects shown by the model.'));
+        if (hasText('s5b')) items.push(entry('Crash pattern explanation','How does the Crash Science Briefing help explain why some test runs showed more vehicle change after impact than others? What evidence supports your thinking?',journalData.s5b));
+      }
+      if (screenId==='section-6' && decisions.dp2) {
+        items.push(entry('Energy investigation path selected','How will you investigate where energy moves during a crash?',decisions.dp2==='A'?'Analyze Vehicle Changes — investigate evidence of energy transfer in the car':'Analyze Surrounding Effects — investigate how energy spreads into the surroundings'));
+      }
+      if (screenId==='section-7a') {
+        if (dp2aSelectedRun) items.push(entry('Vehicle energy analysis','Test run selected','Test Run '+dp2aSelectedRun,dp2aAnalysisRun?'Energy analysis was run.':'Energy analysis was not yet run.'));
+        if (hasText('s7a')) items.push(entry('Energy transfer through the car','What evidence do you see that energy was transferred through the car during the crash? Use details from at least one test run.',journalData.s7a));
+      }
+      if (screenId==='section-7b') {
+        if (dp2bSelectedRun) items.push(entry('Surroundings energy analysis','Test run selected','Test Run '+dp2bSelectedRun,dp2bAnalysisRun?'Energy analysis was run.':'Energy analysis was not yet run.'));
+        if (hasText('s7b')) items.push(entry('Energy transfer to the surroundings','What evidence do you see that energy was transferred to the surroundings during the crash? Use details from at least one test run.',journalData.s7b));
+      }
+      if (screenId==='section-8' && hasText('s8')) items.push(entry('Energy evidence synthesis','Compare what each investigation revealed about energy transfer. Using evidence from both paths, where did the energy go during the crash, and how do you know?',journalData.s8));
+      if (screenId==='section-8b') {
+        const crashModel=lessonState.modelResponses.crashEnergy;
+        if (crashModel.before || crashModel.during || crashModel.after) items.push(model('Crash Energy Model',crashModel));
+        if (hasText('s8b')) items.push(entry('Model evidence explanation','Look at the crash energy model you built. What evidence from the crash tests supports your model?',journalData.s8b));
+      }
+      if (screenId==='section-9') {
+        if (hasText('brief_claim')) items.push(entry('Scientific brief — Claim','How is energy transferred during a crash?',journalData.brief_claim));
+        if (hasText('brief_evcar')) items.push(entry('Scientific brief — Evidence of vehicle changes','What evidence of vehicle changes supports your claim and model?',journalData.brief_evcar));
+        if (hasText('brief_evsurr')) items.push(entry('Scientific brief — Evidence from the surroundings','What evidence from the surroundings supports your claim and model?',journalData.brief_evsurr));
+        if (hasText('brief_expl')) items.push(entry('Scientific brief — Scientific explanation','Explain how motion, energy transfer, vehicle changes, and surrounding effects are connected, using evidence from both the car and the surroundings.',journalData.brief_expl,lessonState.recommendations.scientificBrief.generated?'Scientific brief generated.':'Draft not yet generated.'));
+      }
+      if (screenId==='section-10') {
+        if (String(lessonState.reflections.finalReflectionEvidence||'').trim()) items.push(entry('Final Reflection','How did this investigation show you how scientists use evidence to explain real-world events?',lessonState.reflections.finalReflectionEvidence));
+        if (String(lessonState.reflections.finalReflectionThinking||'').trim()) items.push(entry('Final Reflection','What changed your thinking the most during your investigation, and what evidence caused that change?',lessonState.reflections.finalReflectionThinking));
+        if (quizState.started || quizState.choice==='yes') items.push(...buildQuizJournalItems());
+      }
+      if (items.length) sections.push({title:SCREEN_TITLES[screenId]||'Investigation Record',items});
+    });
+    return sections;
+  }
+
+  function buildQuizJournalItems() {
+    const items=[];
+    items.push(entry('Optional Standards Quiz','Quiz status',quizState.submitted?'Completed':'Started but not submitted'));
+    if (quizState.submitted) items.push(entry('Optional Standards Quiz','Final score',quizState.score+' out of '+standardsQuiz.length));
+    standardsQuiz.forEach((question,index) => {
+      const chosen=quizState.answers[index];
+      if (chosen===undefined) return;
+      let context='Attempts: '+(quizState.attempts[index]||1)+' · Revised: '+((quizState.revisions[index]||0)>0?'Yes':'No');
+      if (quizState.submitted) context='Correct answer: '+question.options[question.correct]+' · '+context+' · Feedback: '+question.feedback[chosen];
+      items.push(entry('Quiz Question '+(index+1),question.q,String.fromCharCode(65+chosen)+'. '+question.options[chosen],context));
+    });
+    return items;
+  }
+
+  function renderJournalSectionsHTML(sections) {
+    if (!sections.length) return '<p class="journal-empty">Your Field Journal will fill in as you make decisions, examine evidence, build your model, and write responses.</p>';
+    return sections.map(section => '<section class="journal-stage"><h2 class="journal-stage-title">'+escapeHTML(section.title)+'</h2>'+section.items.map(item => {
+      if (item.type==='model') {
+        const data=item.data||{};
+        return '<article class="journal-model"><h3>'+escapeHTML(item.label)+'</h3><ol><li><strong>Before the crash:</strong> '+escapeHTML(data.before||'Not selected')+'</li><li><strong>During the crash:</strong> '+escapeHTML(data.during||'Not selected')+'</li><li><strong>After the crash:</strong> '+escapeHTML(data.after||'Not selected')+'</li></ol><p><strong>Connections:</strong> '+escapeHTML((data.relationships||[]).join('; '))+'</p><p><strong>Model generated:</strong> '+(data.created?'Yes':'No')+'</p></article>';
+      }
+      if (item.type==='evidence') return '<article class="journal-entry"><h3>'+escapeHTML(item.label)+'</h3>'+(item.context?'<p class="journal-context">'+escapeHTML(item.context)+'</p>':'')+'<ul class="journal-evidence-list">'+item.items.map(value=>'<li>'+escapeHTML(value)+'</li>').join('')+'</ul></article>';
+      return '<article class="journal-entry"><h3>'+escapeHTML(item.label)+'</h3>'+(item.context?'<p class="journal-context">'+escapeHTML(item.context)+'</p>':'')+'<p class="journal-context">'+escapeHTML(item.prompt)+'</p><p>'+escapeHTML(item.value)+'</p></article>';
+    }).join('')+'</section>').join('');
+  }
+
+  function journalSummaryHTML() {
+    const dp1=decisions.dp1==='A'?'Motion evidence':decisions.dp1==='B'?'Vehicle damage evidence':'Not selected yet';
+    const dp2=decisions.dp2==='A'?'Vehicle changes':decisions.dp2==='B'?'Surrounding effects':'Not selected yet';
+    const modelStatus=briefModelCreated?'Generated':'Not generated yet';
+    const briefStatus=lessonState.recommendations.scientificBrief.generated?'Generated':'Not generated yet';
+    return '<div class="journal-summary"><div class="journal-summary-item"><strong>Starting Evidence</strong>'+escapeHTML(dp1)+'</div><div class="journal-summary-item"><strong>Energy Path</strong>'+escapeHTML(dp2)+'</div><div class="journal-summary-item"><strong>Crash Model</strong>'+escapeHTML(modelStatus)+'</div><div class="journal-summary-item"><strong>Scientific Brief</strong>'+escapeHTML(briefStatus)+'</div></div>';
+  }
+
+  function renderJournal() {
+    const container=document.getElementById('journal-drawer-content');
+    if (container) container.innerHTML=journalSummaryHTML()+renderJournalSectionsHTML(buildJournalSections());
+  }
+  window.renderJournal=renderJournal;
+
+  function sanitizeFilename(value) { return String(value||'').replace(/[<>:"/\\|?*\u0000-\u001F]/g,'').replace(/\s+/g,' ').trim().replace(/[. ]+$/g,'').slice(0,120); }
+  function buildExportFilename(rawName) {
+    const title=sanitizeFilename(LESSON_CONFIG.lessonTitle).replace(/:/g,'');
+    let base=sanitizeFilename(rawName)||'Student Journal';
+    const normalizedBase=base.toLowerCase().replace(/[^a-z0-9]/g,'');
+    const normalizedTitle=title.toLowerCase().replace(/[^a-z0-9]/g,'');
+    if (!normalizedBase.includes(normalizedTitle)) base+=' – '+title;
+    return base+'.html';
+  }
+  window.updateExportPreview=function(){ const input=document.getElementById('export-name-input'),preview=document.getElementById('export-filename-preview'); if(preview)preview.textContent=buildExportFilename(input?input.value:''); };
+  window.confirmExportJournal=function(){ const input=document.getElementById('export-name-input'); const displayName=input?input.value.trim():''; const filename=buildExportFilename(displayName); closeOverlay('export-modal',false); exportJournal(filename,displayName); };
+  window.exportModalPreview=window.updateExportPreview;
+  window.exportModalConfirm=window.confirmExportJournal;
+
+  function exportJournal(filename,displayName) {
+    saveToStorage();
+    const content=journalSummaryHTML()+renderJournalSectionsHTML(buildJournalSections());
+    const html='<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escapeHTML(LESSON_CONFIG.lessonTitle)+' — Field Journal</title><style>body{font-family:Arial,sans-serif;line-height:1.6;color:#1e293b;background:#eef2f7;margin:0}.wrap{max-width:800px;margin:auto;padding:28px 18px 60px}.hero{background:#2E4A72;color:#fff;border-top:5px solid #F97316;border-radius:12px;padding:22px;margin-bottom:20px}.hero h1{margin:0}.hero p{margin:6px 0 0;color:#e2e8f0}.journal-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:18px}.journal-summary-item{background:#fff;border:1px solid #dbe2ea;border-radius:10px;padding:10px}.journal-summary-item strong{display:block;color:#1E3354;font-size:11px;text-transform:uppercase}.journal-stage{margin:24px 0}.journal-stage-title{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#c45c0d}.journal-entry{background:#fff;border:1px solid #dbe2ea;border-left:4px solid #3B82F6;border-radius:0 10px 10px 0;padding:14px;margin-bottom:10px}.journal-entry h3{margin:0 0 6px;color:#1E3354}.journal-entry p{white-space:pre-wrap;margin:4px 0}.journal-context{color:#64748b;font-size:13px}.journal-model{background:#fff7ed;border:2px solid #F97316;border-radius:10px;padding:14px}.journal-model h3{color:#c45c0d}.journal-evidence-list{margin-left:20px}.foot{color:#64748b;font-size:12px;margin-top:28px}@media(max-width:560px){.journal-summary{grid-template-columns:1fr}}@media print{body{background:#fff}.wrap{max-width:none;padding:0}.journal-entry,.journal-model,.hero{break-inside:avoid}}</style></head><body><main class="wrap"><header class="hero"><h1>'+escapeHTML(LESSON_CONFIG.lessonTitle)+'</h1><p>Field Journal'+(displayName?' · '+escapeHTML(displayName):'')+'</p></header>'+content+'<p class="foot">Exported '+escapeHTML(new Date().toLocaleString())+'</p></main></body></html>';
+    const blob=new Blob([html],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    announceStatus('Field Journal exported.');
+  }
+  window.exportJournal=exportJournal;
+  window.doExportJournal=function(name){ exportJournal(buildExportFilename(name),name||''); };
+
+  // ---- Restore branch-specific interfaces ----
+  function restoreDamageEvidenceUI() {
+    const views=lessonState.evidenceSelections.damageCardViews||{};
+    [1,2,3].forEach(card=>{ if(views[card]) originalSetToggle(card,views[card]); });
+    const seen=lessonState.evidenceSelections.damageHotspots||[];
+    seen.forEach(item=>{ const btn=[...document.querySelectorAll('#card-'+item.card+' .pb-hotspot')].find(b=>b.dataset.title===item.title); if(btn)btn.classList.add('visited'); });
+  }
+  function restoreEnergyAnalysisUI() {
+    const restore=(containerId,selected,ran,analysisId)=>{
+      if(!selected)return;
+      const btn=document.querySelector('#'+containerId+' .ea-btn--run[data-run="'+selected+'"]');
+      const savedRan=ran;
+      if(btn)btn.click();
+      if(savedRan){const analysis=document.getElementById(analysisId);if(analysis)analysis.click();}
+    };
+    restore('embed-7a',dp2aSelectedRun,dp2aAnalysisRun,'ea7a-btn-analyse');
+    restore('embed-7b',dp2bSelectedRun,dp2bAnalysisRun,'ea7b-btn-analyse');
+  }
+  function restoreSpeedBriefing() {
+    const state=lessonState.evidenceSelections.speedBriefing;
+    const slider=document.getElementById('speedSlider');
+    if(slider&&state){slider.value=state.value||30;if(typeof update==='function')update();}
+  }
+
+  // ---- Runtime semantics, labels, and image alternatives ----
+  function standardizeSemantics() {
+    document.querySelectorAll('.section-title').forEach(el=>{el.setAttribute('role','heading');el.setAttribute('aria-level','1');});
+    document.querySelectorAll('button:not([type])').forEach(btn=>btn.setAttribute('type','button'));
+    const keyById={
+      'journal-s4a':'s4a','journal-s4b':'s4b','journal-s5a':'s5a','journal-s5b':'s5b','journal-s7a':'s7a','journal-s7b':'s7b','journal-s8':'s8','journal-s8b':'s8b',
+      'brief-claim':'brief_claim','brief-ev-car':'brief_evcar','brief-ev-surr':'brief_evsurr','brief-explanation':'brief_expl'
+    };
+    Object.entries(keyById).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.dataset.key=key;});
+    document.querySelectorAll('textarea').forEach(el=>{
+      if(el.getAttribute('aria-label'))return;
+      const prompt=el.closest('.field-journal,.s10-brief-field,.cs-data-log-card')?.querySelector('.journal-prompt,.s10-brief-field-label,.s10-brief-field-prompt,.cs-card-title');
+      el.setAttribute('aria-label',prompt?prompt.textContent.trim():'Student response');
+    });
+    const altMap={
+      'images/Energy_Entry2.png':'Impact Motors crash investigation briefing scene',
+      'images/Energy_Meet Molly2.png':'Molly, the Senior Safety Engineer, welcoming the junior crash test scientists',
+      'images/Energy_Laptop_with_Images.png':'Laptop displaying crash test evidence from multiple test runs',
+      'images/Energy_track2.png':'', 'images/Energy_car.png':'Orange crash test car on the Impact Motors track',
+      'images/Energy_no impact.png':'Crash test car before impact',
+      'images/Energy_TestRun1.png':'Test Run 1 car after impact', 'images/Energy_TestRun2.png':'Test Run 2 car after impact', 'images/Energy_TestRun3.png':'Test Run 3 car after impact',
+      'images/Energy_wondering2.png':'Junior crash test scientists reviewing questions raised by the evidence',
+      'images/Energy_AnalysisTool2.png':'Impact Motors energy analysis tool',
+      'images/Energy_TestRun1AnalysisA.png':'Vehicle-change energy analysis for Test Run 1', 'images/Energy_TestRun2AnalysisA.png':'Vehicle-change energy analysis for Test Run 2', 'images/Energy_TestRun3AnalysisA.png':'Vehicle-change energy analysis for Test Run 3',
+      'images/Energy_TestRun1AnalysisB.png':'Surroundings energy analysis for Test Run 1', 'images/Energy_TestRun2AnalysisB.png':'Surroundings energy analysis for Test Run 2', 'images/Energy_TestRun3AnalysisB.png':'Surroundings energy analysis for Test Run 3',
+      'images/Energy_Investigation Complete.png':'Impact Motors team reviewing the completed crash investigation'
+    };
+    document.querySelectorAll('img').forEach(img=>{
+      if(!img.hasAttribute('alt'))img.alt=Object.prototype.hasOwnProperty.call(altMap,img.getAttribute('src'))?altMap[img.getAttribute('src')]:'Crash investigation evidence image';
+      if(img.alt==='')img.setAttribute('aria-hidden','true');
+    });
+    const dynamicAlt={
+      'ea7a-img-after':'Selected test-run car after impact','ea7a-img-analysis':'Vehicle-change energy analysis for the selected test run',
+      'ea7b-img-after':'Selected test-run car after impact','ea7b-img-analysis':'Surroundings energy analysis for the selected test run'
+    };
+    Object.entries(dynamicAlt).forEach(([id,alt])=>{const img=document.getElementById(id);if(img)img.alt=alt;});
+  }
+
+  function restoreSelectedDecisions() {
+    document.querySelectorAll('#section-3 .btn-decision').forEach((btn,index)=>btn.setAttribute('aria-pressed',String(decisions.dp1===(index===0?'A':'B'))));
+    document.querySelectorAll('#section-6 .btn-decision').forEach((btn,index)=>btn.setAttribute('aria-pressed',String(decisions.dp2===(index===0?'A':'B'))));
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    standardizeSemantics();
+    restoreDamageEvidenceUI();
+    restoreEnergyAnalysisUI();
+    restoreSpeedBriefing();
+    restoreSelectedDecisions();
+    renderTracker();
+    updateCompletionActions();
+    updateExportPreview();
+    showSection(savedCurrentSection || lessonState.currentScreen || 'section-0');
+  });
+})();
+</script>
 
 </body>
 </html>
