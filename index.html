@@ -2880,7 +2880,7 @@
   </style>
 
 <style id="stories-in-science-consistency-retrofit">
-:root { --lesson-content-max: 800px; --shell-wide-max: 1040px; }
+:root { --lesson-content-max: 900px; --shell-wide-max: 1040px; }
 html { scroll-padding-top: 92px; }
 body { overflow-x: hidden; }
 body.ui-locked { overflow: hidden; }
@@ -3037,11 +3037,19 @@ button { min-height:44px; }
 }
 .shell-control--danger:hover { background: var(--orange-dim); }
 
+/* Inset the header's content to align with the lesson content column
+   below it (matches Alien Alert's app-header__inner), while keeping
+   this element's colored background full-bleed. */
+#active-lesson-header {
+  padding-left: max(12px, calc((100% - var(--lesson-content-max)) / 2 + 12px));
+  padding-right: max(12px, calc((100% - var(--lesson-content-max)) / 2 + 12px));
+}
+
 /* ---- Progress tracker: individual step cards, no arrow connectors ---- */
 .tracker-path {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -3051,21 +3059,30 @@ button { min-height:44px; }
 .tracker-step {
   flex: 1 1 150px;
   min-width: 150px;
-  border: 1px solid #cbd5e1;
+  border: 2px solid #cbd5e1;
   border-radius: var(--radius);
   background: #fff;
-  padding: 12px 14px;
+  padding: 8px 9px;
   box-shadow: var(--shadow-sm);
   align-items: flex-start;
+  gap: 9px;
 }
 .tracker-step.current {
   border-color: var(--orange);
   box-shadow: 0 0 0 3px rgba(249,115,22,.18);
 }
+.tracker-step-icon { width: 24px; height: 24px; font-size: 0.72rem; }
+.tracker-step-label { font-size: 0.6rem; letter-spacing: 0.09em; line-height: 1.2; }
+.tracker-step-value { font-size: 0.68rem; line-height: 1.2; }
 
 @media (max-width: 620px) {
   .tracker-step { flex: 1 1 100%; }
+  #active-lesson-header { padding-left: 12px; padding-right: 12px; }
 }
+
+/* Header stays visible from the launch screen; only its buttons hide
+   until the student leaves the launch page (matches Alien Alert). */
+.launch-view .shell-actions { display: none; }
 </style>
 
 </head>
@@ -6231,8 +6248,12 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
     const launch = sectionId === 'section-0';
     const header = document.getElementById('active-lesson-header');
     const tracker = document.getElementById('investigation-tracker');
-    if (header) header.hidden = launch;
+    // Header (badge + title) stays visible from the launch screen onward,
+    // matching the Alien Alert pattern; only its action buttons and the
+    // progress tracker are held back until the student leaves the launch page.
+    if (header) header.hidden = false;
     if (tracker) tracker.hidden = launch;
+    document.body.classList.toggle('launch-view', launch);
     renderTracker();
     updateCompletionActions();
   };
