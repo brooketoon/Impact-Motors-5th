@@ -3021,6 +3021,53 @@ button { min-height:44px; }
 }
 </style>
 
+<style id="alien-alert-visual-parity">
+/* ================================================================
+   VISUAL PARITY PASS — matches the Alien Alert shell pattern
+   (header controls, progress tracker, export flow) using this
+   lesson's own navy/orange/blue palette. No changes to lesson
+   content, narrative, images, or interactive tools.
+   ================================================================ */
+
+/* ---- Restart: solid accent button, matching Alien Alert ---- */
+.shell-control--danger {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+}
+.shell-control--danger:hover { background: var(--orange-dim); }
+
+/* ---- Progress tracker: individual step cards, no arrow connectors ---- */
+.tracker-path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.tracker-connector { display: none; }
+.tracker-step {
+  flex: 1 1 150px;
+  min-width: 150px;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius);
+  background: #fff;
+  padding: 12px 14px;
+  box-shadow: var(--shadow-sm);
+  align-items: flex-start;
+}
+.tracker-step.current {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(249,115,22,.18);
+}
+
+@media (max-width: 620px) {
+  .tracker-step { flex: 1 1 100%; }
+}
+</style>
+
 </head>
 <body>
 
@@ -4731,20 +4778,6 @@ Where will you start your energy analysis?      </p>
   </div>
 </div>
 
-<!-- Export filename modal -->
-<div class="shell-modal-overlay" id="export-modal" role="dialog" aria-modal="true" aria-labelledby="export-title">
-  <div class="shell-modal" tabindex="-1">
-    <h2 id="export-title">What should we name your file?</h2>
-    <p>Enter a name for your journal. The lesson title will be added automatically.</p>
-    <label for="export-name-input">File name</label>
-    <input type="text" id="export-name-input" placeholder="Brooke Science Journal" maxlength="80" autocomplete="off" oninput="updateExportPreview()">
-    <div class="filename-preview" id="export-filename-preview">Student Journal – Impact Motors Crash Investigation.html</div>
-    <div class="modal-actions">
-      <button type="button" class="modal-button modal-button--safe" onclick="closeExportModal()">Cancel</button>
-      <button type="button" class="modal-button modal-button--primary" id="export-confirm-button" onclick="confirmExportJournal()">Export Journal</button>
-    </div>
-  </div>
-</div>
 
 <div id="global-status" class="sr-only" role="status" aria-live="polite"></div>
 
@@ -6036,8 +6069,8 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
       const btn = document.createElement('button');
       btn.className   = 'tts-listen-btn';
       btn.dataset.sid = sec.id;
-      btn.setAttribute('aria-label', 'Listen to this page');
-      btn.innerHTML   = '<span class="tts-icon">🔊</span> Listen';
+      btn.setAttribute('aria-label', 'Read this page aloud');
+      btn.innerHTML   = '<span class="tts-icon">🔊</span> Read Aloud';
       btn.addEventListener('click', () => ttsToggle(sec.id, btn));
       body.insertBefore(btn, body.firstChild);
     });
@@ -6046,7 +6079,7 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
   function ttsToggle(sectionId, btn) {
     if (!('speechSynthesis' in window)) {
       announceStatus('Text-to-speech is not supported in this browser.');
-      if (btn) { btn.classList.remove('tts-playing'); btn.innerHTML = '<span class="tts-icon">🔊</span> Listen'; }
+      if (btn) { btn.classList.remove('tts-playing'); btn.innerHTML = '<span class="tts-icon">🔊</span> Read Aloud'; }
       return;
     }
     if (ttsActiveSectionId === sectionId && window.speechSynthesis.speaking) {
@@ -6082,7 +6115,7 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
     const sec = document.getElementById(sectionId);
     if (!sec) return;
     const btn = sec.querySelector('.tts-listen-btn');
-    if (btn) { btn.innerHTML = '<span class="tts-icon">🔊</span> Listen'; btn.classList.remove('tts-active'); }
+    if (btn) { btn.innerHTML = '<span class="tts-icon">🔊</span> Read Aloud'; btn.classList.remove('tts-active'); }
   }
 
   function ttsExtractText(section) {
@@ -6241,6 +6274,12 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
   function invalidResult(message, selector) { return { valid:false, message, selector }; }
   function response(key) { return String(journalData[key] || '').trim(); }
   function validateCurrentScreen(screenId) {
+    // Consistency pass: Continue is never blocked by missing selections,
+    // unrun tests, or unwritten responses, matching the "no gating" rule
+    // used across every Stories in Science lesson. Checks below are left
+    // in place, unused, in case a specific reveal-aware gate is ever
+    // reintroduced deliberately.
+    return validResult();
     if (screenId === 'section-4a') {
       if ([1,2,3].some(n => !csTestLog[n])) return invalidResult('Replay all three test runs before continuing.', '#section-4a .cs-test-controls');
       if (!response('s4a')) return invalidResult('Record the motion pattern you noticed before continuing.', '#journal-s4a');
@@ -6305,7 +6344,7 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
   const returnFocus = new Map();
   function focusable(root) { return [...root.querySelectorAll('button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])')].filter(el => !el.hidden && el.offsetParent !== null); }
   function closeAllOverlays(exceptId) {
-    ['glossary-drawer','journal-drawer','restart-modal','export-modal'].forEach(id => { if (id !== exceptId) closeOverlay(id,false); });
+    ['glossary-drawer','journal-drawer','restart-modal'].forEach(id => { if (id !== exceptId) closeOverlay(id,false); });
   }
   function openOverlay(id, initialFocus) {
     closeAllOverlays(id);
@@ -6338,22 +6377,21 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
   window.showRestartModal = function () { openOverlay('restart-modal', document.getElementById('keep-progress-button')); };
   window.closeRestartModal = function () { closeOverlay('restart-modal'); };
   window.showExportModal = function () {
-    const input = document.getElementById('export-name-input');
-    if (input) input.value = '';
-    updateExportPreview();
-    openOverlay('export-modal', input);
+    // Consistency pass: export is now a single direct action (matching the
+    // Alien Alert pattern) rather than a filename-entry modal. Kept under
+    // the old function name since it's called from several buttons already
+    // wired up in the markup.
+    exportJournal(buildExportFilename(''), '');
   };
-  window.closeExportModal = function () { closeOverlay('export-modal'); };
   // Compatibility names retained for existing lesson buttons.
   window.exportModalOpen = window.showExportModal;
-  window.exportModalClose = window.closeExportModal;
   window.glossaryModalOpen = window.showGlossaryDrawer;
   window.glossaryModalClose = window.closeGlossaryDrawer;
   window.confirmModalOpen = window.showRestartModal;
   window.confirmModalClose = window.closeRestartModal;
 
   document.querySelectorAll('[data-close-overlay]').forEach(scrim => scrim.addEventListener('click', () => closeOverlay(scrim.dataset.closeOverlay)));
-  ['restart-modal','export-modal'].forEach(id => {
+  ['restart-modal'].forEach(id => {
     const overlay = document.getElementById(id);
     if (overlay) overlay.addEventListener('click', event => { if (event.target === overlay) closeOverlay(id); });
   });
@@ -6374,7 +6412,7 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
     closeOverlay('restart-modal',false);
     if (typeof ttsStop === 'function') ttsStop();
     clearState();
-    document.querySelectorAll('textarea,input[type="text"]').forEach(el => { if (!['export-name-input'].includes(el.id)) el.value=''; });
+    document.querySelectorAll('textarea,input[type="text"]').forEach(el => { el.value=''; });
     document.querySelectorAll('.bm-toggle-opt').forEach(btn => btn.classList.remove('bm-active'));
     document.querySelectorAll('.bm-box').forEach(box => { box.textContent='Choose a toggle above.'; box.classList.remove('bm-filled'); });
     const diagram=document.getElementById('s8b-diagram'); if (diagram) diagram.classList.remove('bm-diagram-show');
@@ -6631,10 +6669,6 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
     if (!normalizedBase.includes(normalizedTitle)) base+=' – '+title;
     return base+'.html';
   }
-  window.updateExportPreview=function(){ const input=document.getElementById('export-name-input'),preview=document.getElementById('export-filename-preview'); if(preview)preview.textContent=buildExportFilename(input?input.value:''); };
-  window.confirmExportJournal=function(){ const input=document.getElementById('export-name-input'); const displayName=input?input.value.trim():''; const filename=buildExportFilename(displayName); closeOverlay('export-modal',false); exportJournal(filename,displayName); };
-  window.exportModalPreview=window.updateExportPreview;
-  window.exportModalConfirm=window.confirmExportJournal;
 
   function exportJournal(filename,displayName) {
     saveToStorage();
@@ -6722,7 +6756,6 @@ label7b.textContent = 'Energy Analysis – Test Run ' + selectedRun7b + ' (Path 
     restoreSelectedDecisions();
     renderTracker();
     updateCompletionActions();
-    updateExportPreview();
     showSection(savedCurrentSection || lessonState.currentScreen || 'section-0');
   });
 })();
